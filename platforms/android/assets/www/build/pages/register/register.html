@@ -1,0 +1,42 @@
+
+<ion-content padding class="register">
+    <ion-col width-80 offset-10 class="space-bottom-logo">
+        <ion-row class="center">
+            <img [src]="logo" />
+        </ion-row>
+    </ion-col>
+    <ion-col width-80 offset-10>
+        <ion-row class="center">
+            <ion-list class="full-width">
+                <ion-item class="space-bottom-input">
+                    <ion-label><ion-icon ios="ios-call" md="md-call"></ion-icon></ion-label>
+                    <ion-input type="telephone" value="" [(ngModel)]="registerModel.telephone" required placeholder="Phone Number"></ion-input>
+                </ion-item>
+
+                <ion-item class="space-bottom-input">
+                    <ion-label><ion-icon ios="ios-person" md="md-person"></ion-icon></ion-label>
+                    <ion-input type="text" [(ngModel)]="registerModel.fullname" required placeholder="Full Name"></ion-input>
+                </ion-item>
+                
+                <ion-item class="space-bottom-input">
+                    <ion-label><ion-icon ios="ios-mail" md="md-mail"></ion-icon></ion-label>
+                    <ion-input type="email" [(ngModel)]="registerModel.email" required placeholder="E-mail"></ion-input>
+                </ion-item>
+                </ion-list>
+        </ion-row>
+    </ion-col>
+    <ion-col width-80 offset-10>
+        <ion-row class="center">
+            <button type="button" outline class="full-width white" [disabled]="submitted" (click)="registerMember()">
+                REGISTER
+            </button>
+        </ion-row>
+    </ion-col>
+    <ion-row class="position-bottom">
+        <ion-col width-25 class="tab-1"></ion-col>
+        <ion-col width-25 class="tab-2"></ion-col>
+        <ion-col width-25 class="tab-3"></ion-col>
+        <ion-col width-25 class="tab-4"></ion-col>
+    </ion-row>
+</ion-content>
+
