@@ -3,7 +3,7 @@ import { NgForm } from 'angular2/common';
 import {AuthenticateModel} from '../../model/authenticate.model';
 import {OmcService} from '../../service/omc';
 import {forwardRef,OnInit} from 'angular2/core';
-import {SecurityPage} from '../security/security';
+// import {SecurityPage} from '../security/security';
 import {HomePage} from '../home/home';
 @Page({
   templateUrl: 'build/pages/authenticate/authenticate.html',
@@ -15,6 +15,7 @@ export class AuthenticatePage implements OnInit{
     submitted = false;
     results:any;
     local:any;
+    token:any;
     constructor(private nav:NavController,
                 private omc:OmcService){
         this.local = new Storage(LocalStorage);
@@ -22,26 +23,34 @@ export class AuthenticatePage implements OnInit{
         this.authenticateModel = new AuthenticateModel('','');
     }
     ngOnInit(){
-        
+        let token
+        this.local.get("token")
+                    .then((data) => {
+                        this.token = data
+                        this.omc.checkToken(this.token)
+                                .subscribe(
+                                    response => this.nav.setRoot(HomePage),
+                                    err => this.local.remove('token'),
+                                    () => console.log("Mobile Init")
+                                );
+                    });
     }
     onSubmit() { 
-        this.nav.setRoot(HomePage);
-        // this.omc.authenticate(this.authenticateModel.username,
-        //                       this.authenticateModel.password)
-        //         .subscribe(
-        //             response => this.results = response,
-        //             err => this.doAlert(err.json()),
-        //             () => this.afterSignIn()
-        //         );
+        this.omc.authenticate(this.authenticateModel.username,
+                              this.authenticateModel.password)
+                .subscribe(
+                    response => this.results = response,
+                    err => this.doAlert(err.json()),
+                    () => this.afterSignIn()
+                );
      }
      afterSignIn(){
          if(this.results.token){
              this.local.set("token",this.results.token);
-             this.nav.push(HomePage);
+             this.nav.setRoot(HomePage);
          }
      }
      doAlert(response){
-         console.log(response);
          let alert = Alert.create({
             title: response.title,
             subTitle: response.message,
