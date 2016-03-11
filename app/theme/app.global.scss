@@ -108,6 +108,10 @@ body.wp img#wp-only {
 }
 
 /* Custom */
+p{
+    margin: 3px;
+}
+
 $logo-align: center;
 $background: rgb(15,33,69);
 
@@ -118,32 +122,120 @@ $tab-color: rgb(249,214,34),rgb(236,30,40),rgb(255,255,255),rgb(27,189,204);
          background-color:nth($tab-color, $i);
      }
 }
-       
-.register,.authenticate{
-    background-color: $background;
+
+.register,.authenticate,.security,.home,.getquote{
+    background-color: $background !important;
 }
-.register .center,.authenticate .center{
+.menu-sub{
+    background-color: darken($background,5%);
+}
+.menu-sub .item{
+    color:#fff;
+    background-color: darken($background,5%);
+    padding-left:35px;
+    padding-right:35px;
+}
+.toolbar-background{
+    background-color: darken($background,5%);
+    border-bottom-width:0px;
+}
+.toolbar{
+    padding:28px;
+}
+.toolbar-title{
+    color:#fff;
+}
+.center{
     align-items: $logo-align;
     justify-content: $logo-align;
 }
-
-.register .full-width,.authenticate .full-width{
+.flex-list{
+    display:flex;
+    flex-direction: row;
+    justify-content:center;
+    margin-bottom: 15px;
+}
+.flex-list:not(:first-child){
+    margin-top: 15px;
+}
+.square{
+    font-size: 1em;
+    width:65px;
+    height: 46px;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+.full-width{
     width:100%;
 }
-.register .space-bottom-logo,.authenticate .space-bottom-logo{
+.space-bottom-logo{
     margin-bottom: 35px;
 }
-.register .space-bottom-input,.authenticate .space-bottom-input{
+.space-bottom-button{
+    margin:0px;
+    margin-bottom: 25px;
+    border-radius: 0px;
+    width:30%;
+}
+.space-top{
+    margin-top:10px;
+}
+.space-bottom-input{
     margin-bottom: 25px;
 }
-.register .position-bottom,.authenticate .position-bottom{
+.position-bottom{
     position: fixed;
     bottom: 0;
     left: 0;
 }
-.register .white,.authenticate .white{
+.white{
     color:#fff;
     border:1px solid #fff;
+}
+.white-non-border{
+    color:#fff;
+    border:0px;
+}
+.black{
+    color:#000 !important;
+}
+.big-text{
+    font-size:1em;
+}
+.block-button{
+    width: 135px;
+    height: 120px;
+    border-radius: 0px;
+}
+.block-button.tab-1{
+    margin-right:15px
+}
+.block-button.tab-3{
+    margin-left:15px
+}
+.block-text{
+    color:white;
+    font-weight: 600;
+    font-size:0.7em;
+}
+.big-icon{
+    font-size:4em;
+}
+.clear-padding{
+    padding: 0px;
+}
+.clear-border{
+    border:0px !important;    
+}
+.block-date ion-item:first-child{
+    width:70%;
+    margin-right: 20px;
+}
+.block-date ion-item:nth-child(2){
+    width:30%;
+}
+.block-data > .space-bottom-input > .item-inner > ion-label{
+    margin:0px !important;
 }
 
 

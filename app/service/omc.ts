@@ -6,7 +6,7 @@ export class OmcService{
     constructor(private http: Http){}
     
     authenticate(username,password){
-        let body = "username=" + username + "&password=" + password;
+        let body = "_u=" + btoa(username) + "&_p=" + btoa(password);
         let data;
         let headers = new Headers();
         headers.append('Content-Type', 'application/x-www-form-urlencoded');

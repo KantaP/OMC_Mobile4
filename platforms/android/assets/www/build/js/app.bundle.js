@@ -3210,7 +3210,7 @@
 	    }
 	    MyApp = __decorate([
 	        ionic_angular_1.App({
-	            template: "<ion-nav [root]=\"rootPage\"></ion-nav>",
+	            templateUrl: 'build/app.html',
 	            config: {
 	                production: true,
 	                platforms: {
@@ -63646,17 +63646,40 @@
 	var ionic_angular_1 = __webpack_require__(5);
 	var authenticate_model_1 = __webpack_require__(363);
 	var omc_1 = __webpack_require__(364);
+	var register_1 = __webpack_require__(369);
 	var AuthenticatePage = (function () {
-	    function AuthenticatePage() {
+	    function AuthenticatePage(nav, omc) {
+	        this.nav = nav;
+	        this.omc = omc;
+	        this.submitted = false;
 	        this.logo = 'img/logo.png';
 	        this.authenticateModel = new authenticate_model_1.AuthenticateModel('', '');
 	    }
+	    AuthenticatePage.prototype.onSubmit = function () {
+	        var _this = this;
+	        this.omc.authenticate(this.authenticateModel.username, this.authenticateModel.password)
+	            .subscribe(function (response) { return _this.results = response; }, function (err) { return _this.doAlert(err.json()); }, function () { return _this.afterSignIn(); });
+	    };
+	    AuthenticatePage.prototype.afterSignIn = function () {
+	        if (this.results.token) {
+	            this.nav.push(register_1.RegisterPage);
+	        }
+	    };
+	    AuthenticatePage.prototype.doAlert = function (response) {
+	        console.log(response);
+	        var alert = ionic_angular_1.Alert.create({
+	            title: response.title,
+	            subTitle: response.message,
+	            buttons: ['Ok']
+	        });
+	        this.nav.present(alert);
+	    };
 	    AuthenticatePage = __decorate([
 	        ionic_angular_1.Page({
 	            templateUrl: 'build/pages/authenticate/authenticate.html',
 	            providers: [omc_1.OmcService]
 	        }), 
-	        __metadata('design:paramtypes', [])
+	        __metadata('design:paramtypes', [ionic_angular_1.NavController, omc_1.OmcService])
 	    ], AuthenticatePage);
 	    return AuthenticatePage;
 	}());
@@ -63700,7 +63723,7 @@
 	        this.http = http;
 	    }
 	    OmcService.prototype.authenticate = function (username, password) {
-	        var body = "username=" + username + "&password=" + password;
+	        var body = "_u=" + btoa(username) + "&_p=" + btoa(password);
 	        var data;
 	        var headers = new http_1.Headers();
 	        headers.append('Content-Type', 'application/x-www-form-urlencoded');
@@ -63820,6 +63843,75 @@
 
 	exports.errorObject = { e: {} };
 	//# sourceMappingURL=errorObject.js.map
+
+/***/ },
+/* 369 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+	    return c > 3 && r && Object.defineProperty(target, key, r), r;
+	};
+	var __metadata = (this && this.__metadata) || function (k, v) {
+	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+	};
+	var ionic_angular_1 = __webpack_require__(5);
+	var register_model_1 = __webpack_require__(370);
+	var omc_1 = __webpack_require__(364);
+	var RegisterPage = (function () {
+	    function RegisterPage(omc, nav) {
+	        this.submitted = false;
+	        this.logo = 'img/logo.png';
+	        this.omc = omc;
+	        this.registerModel = new register_model_1.RegisterModel('', '', '');
+	        this.nav = nav;
+	        this.hidden = true;
+	    }
+	    RegisterPage.prototype.registerMember = function () {
+	        var _this = this;
+	        this.submitted = true;
+	        this.omc.register(this.registerModel.fullname, this.registerModel.telephone, this.registerModel.email)
+	            .subscribe(function (response) { return _this.results = response; }, function (err) { return console.log(err); }, function () { return _this.doAlert(_this.results); });
+	    };
+	    RegisterPage.prototype.doAlert = function (results) {
+	        var alert = ionic_angular_1.Alert.create({
+	            title: results.title,
+	            subTitle: results.message,
+	            buttons: ['Ok']
+	        });
+	        this.nav.present(alert);
+	        this.submitted = false;
+	    };
+	    RegisterPage = __decorate([
+	        ionic_angular_1.Page({
+	            templateUrl: 'build/pages/register/register.html',
+	            providers: [omc_1.OmcService]
+	        }), 
+	        __metadata('design:paramtypes', [omc_1.OmcService, ionic_angular_1.NavController])
+	    ], RegisterPage);
+	    return RegisterPage;
+	}());
+	exports.RegisterPage = RegisterPage;
+
+
+/***/ },
+/* 370 */
+/***/ function(module, exports) {
+
+	"use strict";
+	var RegisterModel = (function () {
+	    function RegisterModel(fullname, email, telephone) {
+	        this.fullname = fullname;
+	        this.email = email;
+	        this.telephone = telephone;
+	    }
+	    return RegisterModel;
+	}());
+	exports.RegisterModel = RegisterModel;
+
 
 /***/ }
 /******/ ]);

@@ -3186,11 +3186,18 @@
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	var ionic_angular_1 = __webpack_require__(5);
-	// import {RegisterPage} from './pages/register/register';
-	var authenticate_1 = __webpack_require__(362);
+	var authenticate_1 = __webpack_require__(370);
+	var home_1 = __webpack_require__(362);
+	var getquote_1 = __webpack_require__(373);
 	var MyApp = (function () {
-	    function MyApp(platform) {
+	    function MyApp(platform, app) {
 	        this.rootPage = authenticate_1.AuthenticatePage;
+	        this.logo = 'img/logo.png';
+	        this.app = app;
+	        this.pages = [
+	            { title: "Home Page", component: home_1.HomePage },
+	            { title: 'Get Quote', component: getquote_1.GetQuotePage },
+	        ];
 	        platform.ready().then(function () {
 	            // The platform is now ready. Note: if this callback fails to fire, follow
 	            // the Troubleshooting guide for a number of possible solutions:
@@ -3208,9 +3215,14 @@
 	            // StatusBar.setStyle(StatusBar.LIGHT_CONTENT)
 	        });
 	    }
+	    MyApp.prototype.openPage = function (page) {
+	        // Reset the content nav to have just this page
+	        // we wouldn't want the back button to show in this scenario
+	        this.rootPage = page.component;
+	    };
 	    MyApp = __decorate([
 	        ionic_angular_1.App({
-	            template: "<ion-nav [root]=\"rootPage\"></ion-nav>",
+	            templateUrl: 'build/app.html',
 	            config: {
 	                production: true,
 	                platforms: {
@@ -3221,7 +3233,7 @@
 	                }
 	            } // http://ionicframework.com/docs/v2/api/config/Config/
 	        }), 
-	        __metadata('design:paramtypes', [ionic_angular_1.Platform])
+	        __metadata('design:paramtypes', [ionic_angular_1.Platform, ionic_angular_1.IonicApp])
 	    ], MyApp);
 	    return MyApp;
 	}());
@@ -63644,47 +63656,25 @@
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	var ionic_angular_1 = __webpack_require__(5);
-	var authenticate_model_1 = __webpack_require__(363);
-	var omc_1 = __webpack_require__(364);
-	var AuthenticatePage = (function () {
-	    function AuthenticatePage(nav) {
+	var omc_1 = __webpack_require__(363);
+	var HomePage = (function () {
+	    function HomePage() {
 	        this.logo = 'img/logo.png';
-	        this.authenticateModel = new authenticate_model_1.AuthenticateModel('', '');
-	        this.nav = nav;
-	        this.hidden = true;
 	    }
-	    AuthenticatePage.prototype.signIn = function () {
-	        // this.nav.push(RegisterPage);
-	    };
-	    AuthenticatePage = __decorate([
+	    HomePage = __decorate([
 	        ionic_angular_1.Page({
-	            templateUrl: 'build/pages/authenticate/authenticate.html',
+	            templateUrl: "build/pages/home/home.html",
 	            providers: [omc_1.OmcService]
 	        }), 
-	        __metadata('design:paramtypes', [ionic_angular_1.NavController])
-	    ], AuthenticatePage);
-	    return AuthenticatePage;
+	        __metadata('design:paramtypes', [])
+	    ], HomePage);
+	    return HomePage;
 	}());
-	exports.AuthenticatePage = AuthenticatePage;
+	exports.HomePage = HomePage;
 
 
 /***/ },
 /* 363 */
-/***/ function(module, exports) {
-
-	"use strict";
-	var AuthenticateModel = (function () {
-	    function AuthenticateModel(username, password) {
-	        this.username = username;
-	        this.password = password;
-	    }
-	    return AuthenticateModel;
-	}());
-	exports.AuthenticateModel = AuthenticateModel;
-
-
-/***/ },
-/* 364 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -63699,13 +63689,13 @@
 	};
 	var core_1 = __webpack_require__(7);
 	var http_1 = __webpack_require__(145);
-	__webpack_require__(365);
+	__webpack_require__(364);
 	var OmcService = (function () {
 	    function OmcService(http) {
 	        this.http = http;
 	    }
 	    OmcService.prototype.authenticate = function (username, password) {
-	        var body = "username=" + username + "&password=" + password;
+	        var body = "_u=" + btoa(username) + "&_p=" + btoa(password);
 	        var data;
 	        var headers = new http_1.Headers();
 	        headers.append('Content-Type', 'application/x-www-form-urlencoded');
@@ -63730,16 +63720,16 @@
 
 
 /***/ },
-/* 365 */
+/* 364 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Observable_1 = __webpack_require__(56);
-	var map_1 = __webpack_require__(366);
+	var map_1 = __webpack_require__(365);
 	Observable_1.Observable.prototype.map = map_1.map;
 	//# sourceMappingURL=map.js.map
 
 /***/ },
-/* 366 */
+/* 365 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __extends = (this && this.__extends) || function (d, b) {
@@ -63748,8 +63738,8 @@
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
 	var Subscriber_1 = __webpack_require__(57);
-	var tryCatch_1 = __webpack_require__(367);
-	var errorObject_1 = __webpack_require__(368);
+	var tryCatch_1 = __webpack_require__(366);
+	var errorObject_1 = __webpack_require__(367);
 	/**
 	 * Similar to the well known `Array.prototype.map` function, this operator
 	 * applies a projection to each value and emits that projection in the returned observable
@@ -63797,10 +63787,10 @@
 	//# sourceMappingURL=map.js.map
 
 /***/ },
-/* 367 */
+/* 366 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var errorObject_1 = __webpack_require__(368);
+	var errorObject_1 = __webpack_require__(367);
 	var tryCatchTarget;
 	function tryCatcher() {
 	    try {
@@ -63820,11 +63810,127 @@
 	//# sourceMappingURL=tryCatch.js.map
 
 /***/ },
-/* 368 */
+/* 367 */
 /***/ function(module, exports) {
 
 	exports.errorObject = { e: {} };
 	//# sourceMappingURL=errorObject.js.map
+
+/***/ },
+/* 368 */,
+/* 369 */,
+/* 370 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+	    return c > 3 && r && Object.defineProperty(target, key, r), r;
+	};
+	var __metadata = (this && this.__metadata) || function (k, v) {
+	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+	};
+	var ionic_angular_1 = __webpack_require__(5);
+	var authenticate_model_1 = __webpack_require__(371);
+	var omc_1 = __webpack_require__(363);
+	var home_1 = __webpack_require__(362);
+	var AuthenticatePage = (function () {
+	    function AuthenticatePage(nav, omc) {
+	        this.nav = nav;
+	        this.omc = omc;
+	        this.submitted = false;
+	        this.local = new ionic_angular_1.Storage(ionic_angular_1.LocalStorage);
+	        this.logo = 'img/logo.png';
+	        this.authenticateModel = new authenticate_model_1.AuthenticateModel('', '');
+	    }
+	    AuthenticatePage.prototype.ngOnInit = function () {
+	    };
+	    AuthenticatePage.prototype.onSubmit = function () {
+	        this.nav.setRoot(home_1.HomePage);
+	        // this.omc.authenticate(this.authenticateModel.username,
+	        //                       this.authenticateModel.password)
+	        //         .subscribe(
+	        //             response => this.results = response,
+	        //             err => this.doAlert(err.json()),
+	        //             () => this.afterSignIn()
+	        //         );
+	    };
+	    AuthenticatePage.prototype.afterSignIn = function () {
+	        if (this.results.token) {
+	            this.local.set("token", this.results.token);
+	            this.nav.push(home_1.HomePage);
+	        }
+	    };
+	    AuthenticatePage.prototype.doAlert = function (response) {
+	        console.log(response);
+	        var alert = ionic_angular_1.Alert.create({
+	            title: response.title,
+	            subTitle: response.message,
+	            buttons: ['Ok']
+	        });
+	        this.nav.present(alert);
+	    };
+	    AuthenticatePage = __decorate([
+	        ionic_angular_1.Page({
+	            templateUrl: 'build/pages/authenticate/authenticate.html',
+	            providers: [omc_1.OmcService]
+	        }), 
+	        __metadata('design:paramtypes', [ionic_angular_1.NavController, omc_1.OmcService])
+	    ], AuthenticatePage);
+	    return AuthenticatePage;
+	}());
+	exports.AuthenticatePage = AuthenticatePage;
+
+
+/***/ },
+/* 371 */
+/***/ function(module, exports) {
+
+	"use strict";
+	var AuthenticateModel = (function () {
+	    function AuthenticateModel(username, password) {
+	        this.username = username;
+	        this.password = password;
+	    }
+	    return AuthenticateModel;
+	}());
+	exports.AuthenticateModel = AuthenticateModel;
+
+
+/***/ },
+/* 372 */,
+/* 373 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+	    return c > 3 && r && Object.defineProperty(target, key, r), r;
+	};
+	var __metadata = (this && this.__metadata) || function (k, v) {
+	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+	};
+	var ionic_angular_1 = __webpack_require__(5);
+	var omc_1 = __webpack_require__(363);
+	var GetQuotePage = (function () {
+	    function GetQuotePage() {
+	        this.logo = 'img/logo.png';
+	    }
+	    GetQuotePage = __decorate([
+	        ionic_angular_1.Page({
+	            templateUrl: "build/pages/getquote/getquote.html",
+	            providers: [omc_1.OmcService]
+	        }), 
+	        __metadata('design:paramtypes', [])
+	    ], GetQuotePage);
+	    return GetQuotePage;
+	}());
+	exports.GetQuotePage = GetQuotePage;
+
 
 /***/ }
 /******/ ]);

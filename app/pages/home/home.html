@@ -1,0 +1,52 @@
+<ion-navbar *navbar class="android-attr" >
+
+  <button menuToggle class="white-non-border">
+    <ion-icon name='menu'></ion-icon>
+  </button>
+  <ion-title padding>
+    <img [src]="logo" width="90"/>
+  </ion-title>
+
+</ion-navbar>
+<ion-content class="home">
+    <p class="space-bottom-input"></p>
+    <ion-col width-100 >
+        <ion-list class="flex-list">
+           <button class="block-button tab-2">
+              <div class="block-icon">
+                  <ion-icon ios="md-bus" md="md-bus" class="big-icon"></ion-icon>
+                  <p></p>
+                  <p class="block-text">GET QUOTE</p>
+              </div>
+           </button>
+        </ion-list>
+        <ion-list class="flex-list">
+            <button class="block-button tab-1">
+              <div class="block-icon">
+                  <i class="fa fa-calendar-check-o fa-3x"></i>
+                  <p class="block-text space-top">MAKE BOOKING</p>
+              </div>
+           </button>
+           <button class="block-button tab-3">
+              <span class="block-icon black">
+                  <i class="fa fa-search fa-3x"></i>
+                  <p class="block-text space-top black">VIEW MY BOOKINGS</p>
+              </span>
+           </button>
+        </ion-list>
+        <ion-list class="flex-list">
+            <button class="block-button tab-4">
+              <div class="block-icon">
+                  <i class="fa fa-user fa-3x"></i>
+                  <p class="block-text space-top">MY PROFILE</p>
+              </div>
+           </button>
+        </ion-list>
+    </ion-col>
+    <ion-row class="position-bottom">
+        <ion-col width-25 class="tab-1"></ion-col>
+        <ion-col width-25 class="tab-2"></ion-col>
+        <ion-col width-25 class="tab-3"></ion-col>
+        <ion-col width-25 class="tab-4"></ion-col>
+    </ion-row>
+</ion-content>
