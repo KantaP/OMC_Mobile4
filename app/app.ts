@@ -5,6 +5,8 @@ import {AuthenticatePage} from './pages/authenticate/authenticate';
 import {SecurityPage} from './pages/security/security';
 import {HomePage} from './pages/home/home';
 import {GetQuotePage} from './pages/getquote/getquote';
+import {InitialPage} from './pages/initial/initial';
+
 @App({
   templateUrl: 'build/app.html',
   config: {
@@ -23,7 +25,7 @@ export class MyApp {
    logo:any;
    app:any;
   constructor(platform: Platform,app: IonicApp) {
-    this.rootPage = AuthenticatePage;
+    this.rootPage = InitialPage;
     this.logo = 'img/logo.png';
     this.app = app;
     this.pages = [

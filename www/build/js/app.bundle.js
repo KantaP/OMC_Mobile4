@@ -3186,12 +3186,12 @@
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	var ionic_angular_1 = __webpack_require__(5);
-	var authenticate_1 = __webpack_require__(362);
 	var home_1 = __webpack_require__(369);
 	var getquote_1 = __webpack_require__(370);
+	var initial_1 = __webpack_require__(371);
 	var MyApp = (function () {
 	    function MyApp(platform, app) {
-	        this.rootPage = authenticate_1.AuthenticatePage;
+	        this.rootPage = initial_1.InitialPage;
 	        this.logo = 'img/logo.png';
 	        this.app = app;
 	        this.pages = [
@@ -63938,6 +63938,53 @@
 	    return GetQuotePage;
 	}());
 	exports.GetQuotePage = GetQuotePage;
+
+
+/***/ },
+/* 371 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+	    return c > 3 && r && Object.defineProperty(target, key, r), r;
+	};
+	var __metadata = (this && this.__metadata) || function (k, v) {
+	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+	};
+	var ionic_angular_1 = __webpack_require__(5);
+	var omc_1 = __webpack_require__(364);
+	var home_1 = __webpack_require__(369);
+	var authenticate_1 = __webpack_require__(362);
+	var InitialPage = (function () {
+	    function InitialPage(omc, nav) {
+	        this.omc = omc;
+	        this.nav = nav;
+	        this.logo = 'img/logo.png';
+	        this.local = new ionic_angular_1.Storage(ionic_angular_1.LocalStorage);
+	    }
+	    InitialPage.prototype.ngOnInit = function () {
+	        var _this = this;
+	        var token;
+	        this.local.get("token")
+	            .then(function (data) {
+	            _this.token = data;
+	            _this.omc.checkToken(_this.token)
+	                .subscribe(function (response) { return _this.nav.setRoot(home_1.HomePage); }, function (err) { return _this.nav.setRoot(authenticate_1.AuthenticatePage); }, function () { return console.log("Mobile Init"); });
+	        });
+	    };
+	    InitialPage = __decorate([
+	        ionic_angular_1.Page({
+	            templateUrl: 'build/pages/initial/initial.html',
+	            providers: [omc_1.OmcService]
+	        }), 
+	        __metadata('design:paramtypes', [omc_1.OmcService, ionic_angular_1.NavController])
+	    ], InitialPage);
+	    return InitialPage;
+	}());
+	exports.InitialPage = InitialPage;
 
 
 /***/ }

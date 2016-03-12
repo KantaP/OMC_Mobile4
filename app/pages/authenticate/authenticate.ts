@@ -23,7 +23,7 @@ export class AuthenticatePage implements OnInit{
         this.authenticateModel = new AuthenticateModel('','');
     }
     ngOnInit(){
-        let token
+        let token 
         this.local.get("token")
                     .then((data) => {
                         this.token = data
