@@ -2,11 +2,12 @@ import {Component,Injectable} from 'angular2/core';
 import {Http, Response, Headers} from 'angular2/http';
 import 'rxjs/add/operator/map';
 @Injectable()
-export class OmcService{
+export class EcmService{
     local:any;
+    database:any;
     constructor(
         private http: Http){
-            
+            this.database = "demo";
     }
     
     authenticate(username,password){

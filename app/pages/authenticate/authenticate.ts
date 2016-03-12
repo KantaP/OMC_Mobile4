@@ -1,13 +1,13 @@
 import {Page, Alert, NavController,Storage, LocalStorage} from 'ionic-angular';
 import { NgForm } from 'angular2/common';
 import {AuthenticateModel} from '../../model/authenticate.model';
-import {OmcService} from '../../service/omc';
+import {EcmService} from '../../service/ecm';
 import {forwardRef,OnInit} from 'angular2/core';
 // import {SecurityPage} from '../security/security';
 import {HomePage} from '../home/home';
 @Page({
   templateUrl: 'build/pages/authenticate/authenticate.html',
-  providers:[OmcService]
+  providers:[EcmService]
 })
 export class AuthenticatePage implements OnInit{
     logo;
@@ -17,7 +17,7 @@ export class AuthenticatePage implements OnInit{
     local:any;
     token:any;
     constructor(private nav:NavController,
-                private omc:OmcService){
+                private omc:EcmService){
         this.local = new Storage(LocalStorage);
         this.logo = 'img/logo.png';
         this.authenticateModel = new AuthenticateModel('','');

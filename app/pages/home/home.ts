@@ -1,9 +1,9 @@
 import {Page, Alert, NavController} from 'ionic-angular';
-import {OmcService} from '../../service/omc';
+import {EcmService} from '../../service/ecm';
 import {forwardRef} from 'angular2/core';
 @Page({
     templateUrl:"build/pages/home/home.html",
-    providers:[OmcService]
+    providers:[EcmService]
 })
 export class HomePage{
     logo:any;

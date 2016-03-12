@@ -1,10 +1,10 @@
 import {Page, Alert, NavController} from 'ionic-angular';
 import {RegisterModel} from '../../model/register.model';
-import {OmcService} from '../../service/omc';
+import {EcmService} from '../../service/ecm';
 import {forwardRef} from 'angular2/core';
 @Page({
   templateUrl: 'build/pages/register/register.html',
-  providers:[OmcService]
+  providers:[EcmService]
 })
 
 export class RegisterPage {
@@ -16,7 +16,7 @@ export class RegisterPage {
     response:any;
     nav:any;
     hidden:any;
-    constructor(omc: OmcService,nav: NavController){
+    constructor(omc: EcmService,nav: NavController){
         this.logo = 'img/logo.png';
         this.omc = omc;
         this.registerModel = new RegisterModel('','','');
