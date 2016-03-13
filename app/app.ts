@@ -1,5 +1,4 @@
-import {App, IonicApp, Platform} from 'ionic-angular';
-import {Page, Config, Events} from 'ionic-angular';
+import {App, IonicApp, Platform,Page, Config, Events} from 'ionic-angular';
 import {RegisterPage} from './pages/register/register';
 import {AuthenticatePage} from './pages/authenticate/authenticate';
 import {SecurityPage} from './pages/security/security';

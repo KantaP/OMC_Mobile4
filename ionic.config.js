@@ -16,7 +16,8 @@ module.exports = {
       ]
     },
     fonts: {
-      src: ['node_modules/ionic-angular/fonts/**/*.+(ttf|woff|woff2)','node_modules/font-awesome/assets/fonts/**/*.+(ttf|woff|woff2)'],
+      src: ['node_modules/ionic-angular/fonts/**/*.+(ttf|woff|woff2)',
+            'node_modules/font-awesome/assets/fonts/**/*.+(ttf|woff|woff2)'],
       dest: "www/build/fonts"
     },
     watch: {

@@ -13,7 +13,7 @@
   },
   "files": [
     "app/app.ts",
-    "app/service/omc.ts"
+    "app/service/ecm.ts"
   ],
   "exclude": [
     "node_modules"

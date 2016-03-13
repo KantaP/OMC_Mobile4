@@ -11,7 +11,7 @@ export class EcmService{
     }
     
     authenticate(username,password){
-        let body = "_u=" + btoa(username) + "&_p=" + btoa(password);
+        let body = "_u=" + btoa(username) + "&_p=" + btoa(password) + "&_d=" + btoa(this.database);
         let data;
         let headers = new Headers();
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
@@ -21,7 +21,7 @@ export class EcmService{
     }
     
     register(fullname,telephone,email){
-        let body = "fullname="+fullname+"&telephone="+telephone+"&email="+email;
+        let body = "_f=" + fullname + "&_t=" + telephone + "&_e=" + email + "&_d=" + btoa(this.database);
         let data;
         let headers = new Headers();
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
@@ -32,7 +32,7 @@ export class EcmService{
     }
     
     checkToken(token){
-        let body = "_t="+token;
+        let body = "_t=" + token;
         let data;
         let headers = new Headers();
         headers.append('Content-Type', 'application/x-www-form-urlencoded');

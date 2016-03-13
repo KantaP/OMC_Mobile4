@@ -63656,7 +63656,7 @@
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	var ionic_angular_1 = __webpack_require__(5);
-	var ecm_1 = __webpack_require__(372);
+	var ecm_1 = __webpack_require__(363);
 	var HomePage = (function () {
 	    function HomePage() {
 	        this.logo = 'img/logo.png';
@@ -63674,7 +63674,61 @@
 
 
 /***/ },
-/* 363 */,
+/* 363 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+	    return c > 3 && r && Object.defineProperty(target, key, r), r;
+	};
+	var __metadata = (this && this.__metadata) || function (k, v) {
+	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+	};
+	var core_1 = __webpack_require__(7);
+	var http_1 = __webpack_require__(145);
+	__webpack_require__(364);
+	var EcmService = (function () {
+	    function EcmService(http) {
+	        this.http = http;
+	        this.database = "demo";
+	    }
+	    EcmService.prototype.authenticate = function (username, password) {
+	        var body = "_u=" + btoa(username) + "&_p=" + btoa(password) + "&_d=" + btoa(this.database);
+	        var data;
+	        var headers = new http_1.Headers();
+	        headers.append('Content-Type', 'application/x-www-form-urlencoded');
+	        return this.http.post('http://webservice.ecoachmanager.com/Api/auth/signIn', body, { headers: headers })
+	            .map(function (response) { return response.json(); });
+	    };
+	    EcmService.prototype.register = function (fullname, telephone, email) {
+	        var body = "_f=" + fullname + "&_t=" + telephone + "&_e=" + email + "&_d=" + btoa(this.database);
+	        var data;
+	        var headers = new http_1.Headers();
+	        headers.append('Content-Type', 'application/x-www-form-urlencoded');
+	        return this.http.post('http://webservice.ecoachmanager.com/Api/member/signUp', body, { headers: headers })
+	            .map(function (response) { return response.json(); });
+	    };
+	    EcmService.prototype.checkToken = function (token) {
+	        var body = "_t=" + token;
+	        var data;
+	        var headers = new http_1.Headers();
+	        headers.append('Content-Type', 'application/x-www-form-urlencoded');
+	        return this.http.post('http://webservice.ecoachmanager.com/Api/auth/checkToken', body, { headers: headers })
+	            .map(function (response) { return response.json(); });
+	    };
+	    EcmService = __decorate([
+	        core_1.Injectable(), 
+	        __metadata('design:paramtypes', [http_1.Http])
+	    ], EcmService);
+	    return EcmService;
+	}());
+	exports.EcmService = EcmService;
+
+
+/***/ },
 /* 364 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -63786,10 +63840,14 @@
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	var ionic_angular_1 = __webpack_require__(5);
-	var ecm_1 = __webpack_require__(372);
+	var ecm_1 = __webpack_require__(363);
 	var GetQuotePage = (function () {
 	    function GetQuotePage() {
 	        this.logo = 'img/logo.png';
+	        this.times = ["00:00", "00:30", "01:00", "01:30", "02:00", "02:30", "03:00", "03:30", "04:00", "04:30", "05:00", "05:30",
+	            "06:00", "06:30", "07:00", "07:30", "08:00", "08:30", "09:00", "09:30", "10:00", "10:30", "11:00", "11:30",
+	            "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00", "17:30",
+	            "18:00", "18:30", "19:00", "19:30", "20:00", "20:30", "21:00", "21:30", "22:00", "22:30", "23:00", "23:30"];
 	    }
 	    GetQuotePage = __decorate([
 	        ionic_angular_1.Page({
@@ -63818,7 +63876,7 @@
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	var ionic_angular_1 = __webpack_require__(5);
-	var ecm_1 = __webpack_require__(372);
+	var ecm_1 = __webpack_require__(363);
 	var home_1 = __webpack_require__(362);
 	var authenticate_1 = __webpack_require__(370);
 	var InitialPage = (function () {
@@ -63866,7 +63924,7 @@
 	};
 	var ionic_angular_1 = __webpack_require__(5);
 	var authenticate_model_1 = __webpack_require__(371);
-	var ecm_1 = __webpack_require__(372);
+	var ecm_1 = __webpack_require__(363);
 	// import {SecurityPage} from '../security/security';
 	var home_1 = __webpack_require__(362);
 	var AuthenticatePage = (function () {
@@ -63932,61 +63990,6 @@
 	    return AuthenticateModel;
 	}());
 	exports.AuthenticateModel = AuthenticateModel;
-
-
-/***/ },
-/* 372 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-	    return c > 3 && r && Object.defineProperty(target, key, r), r;
-	};
-	var __metadata = (this && this.__metadata) || function (k, v) {
-	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-	};
-	var core_1 = __webpack_require__(7);
-	var http_1 = __webpack_require__(145);
-	__webpack_require__(364);
-	var EcmService = (function () {
-	    function EcmService(http) {
-	        this.http = http;
-	        this.database = "demo";
-	    }
-	    EcmService.prototype.authenticate = function (username, password) {
-	        var body = "_u=" + btoa(username) + "&_p=" + btoa(password);
-	        var data;
-	        var headers = new http_1.Headers();
-	        headers.append('Content-Type', 'application/x-www-form-urlencoded');
-	        return this.http.post('http://webservice.ecoachmanager.com/Api/auth/signIn', body, { headers: headers })
-	            .map(function (response) { return response.json(); });
-	    };
-	    EcmService.prototype.register = function (fullname, telephone, email) {
-	        var body = "fullname=" + fullname + "&telephone=" + telephone + "&email=" + email;
-	        var data;
-	        var headers = new http_1.Headers();
-	        headers.append('Content-Type', 'application/x-www-form-urlencoded');
-	        return this.http.post('http://webservice.ecoachmanager.com/Api/member/signUp', body, { headers: headers })
-	            .map(function (response) { return response.json(); });
-	    };
-	    EcmService.prototype.checkToken = function (token) {
-	        var body = "_t=" + token;
-	        var data;
-	        var headers = new http_1.Headers();
-	        headers.append('Content-Type', 'application/x-www-form-urlencoded');
-	        return this.http.post('http://webservice.ecoachmanager.com/Api/auth/checkToken', body, { headers: headers })
-	            .map(function (response) { return response.json(); });
-	    };
-	    EcmService = __decorate([
-	        core_1.Injectable(), 
-	        __metadata('design:paramtypes', [http_1.Http])
-	    ], EcmService);
-	    return EcmService;
-	}());
-	exports.EcmService = EcmService;
 
 
 /***/ }

@@ -22,7 +22,10 @@
                 <ion-input type="text" value="" placeholder="Picup Date"></ion-input>
             </ion-item>
             <ion-item class="space-bottom-input">
-                <ion-input type="text" value="" placeholder=""></ion-input>
+                <!--<ion-label>Pickup Time</ion-label>-->
+                <ion-select>
+                    <ion-option *ngFor="#time of times" [value]="time">{{time}}</ion-option>
+                </ion-select>
             </ion-item>
         </ion-row>
         <ion-row class="center block-date">
@@ -30,7 +33,10 @@
                 <ion-input type="text" value="" placeholder="Return Date"></ion-input>
             </ion-item>
             <ion-item class="space-bottom-input">
-                <ion-input type="text" value="" placeholder=""></ion-input>
+                <!--<ion-label>Return Time</ion-label>-->
+                <ion-select>
+                    <ion-option *ngFor="#time of times" [value]="time">{{time}}</ion-option>
+                </ion-select>
             </ion-item>
         </ion-row>
         <ion-row class="center block-date">
@@ -50,6 +56,21 @@
                 <i class="fa fa-map-marker" style="margin-right: 10px;"></i>
                 Find
             </button>
+        </ion-row>
+        <ion-row class="center block-date">
+            <ion-item class="space-bottom-input">
+                <ion-input type="text" value="" placeholder="Destination Address"></ion-input>
+            </ion-item>
+            <button class="space-bottom-button  tab-4">
+                <i class="fa fa-map-marker" style="margin-right: 10px;"></i>
+                Find
+            </button>
+        </ion-row>
+        <p></p>
+        <ion-row>
+            <p class="white-non-border">
+                Mileage Duration
+            </p>
         </ion-row>
         <ion-row class="center block-date">
             <ion-item class="space-bottom-input">
