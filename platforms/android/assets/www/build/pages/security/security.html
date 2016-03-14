@@ -1,0 +1,45 @@
+<ion-navbar *navbar hideBackButton class="android-attr" >
+
+  <!--<button menuToggle>
+    <ion-icon name='menu'></ion-icon>
+  </button>-->
+  <ion-title padding>
+    <img [src]="logo" width="90"/>
+  </ion-title>
+
+</ion-navbar>
+<ion-content padding class="security">
+    <p class="space-bottom-input"></p>
+    <ion-col width-80 offset-10>
+        <ion-row class="center">
+            <p class="white-non-border big-text">Enter 4 Digit</p>
+        </ion-row>
+        <ion-row class="center">
+             <p class="white-non-border big-text">Passcode From SMS</p>
+        </ion-row>
+    </ion-col>
+    <p class="space-bottom-input"></p>
+    <ion-col width-80 offset-10>
+        <ion-list class="flex-list">
+            <ion-item class="square">
+                <ion-input type="text" class="validate" value="" required></ion-input>
+            </ion-item>
+            <ion-item class="square">
+                <ion-input type="text" class="validate" value="" required></ion-input>
+            </ion-item>
+            <ion-item class="square">
+                <ion-input type="text" class="validate" value="" required></ion-input>
+            </ion-item>
+            <ion-item class="square">
+                <ion-input type="text" class="validate" value="" required></ion-input>
+            </ion-item>
+        </ion-list>
+        
+    </ion-col>
+    <ion-row class="position-bottom">
+        <ion-col width-25 class="tab-1"></ion-col>
+        <ion-col width-25 class="tab-2"></ion-col>
+        <ion-col width-25 class="tab-3"></ion-col>
+        <ion-col width-25 class="tab-4"></ion-col>
+    </ion-row>
+</ion-content>

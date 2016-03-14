@@ -1,15 +1,15 @@
-import {Page, Alert, NavController,Storage, LocalStorage} from 'ionic-angular';
+import {Page,MenuController, Alert, NavController,Storage, LocalStorage} from 'ionic-angular';
 import { NgForm } from 'angular2/common';
 import {AuthenticateModel} from '../../model/authenticate.model';
 import {EcmService} from '../../service/ecm';
-import {forwardRef,OnInit} from 'angular2/core';
+import {forwardRef} from 'angular2/core';
 // import {SecurityPage} from '../security/security';
 import {HomePage} from '../home/home';
 @Page({
   templateUrl: 'build/pages/authenticate/authenticate.html',
   providers:[EcmService]
 })
-export class AuthenticatePage implements OnInit{
+export class AuthenticatePage{
     logo;
     authenticateModel;
     submitted = false;
@@ -17,24 +17,14 @@ export class AuthenticatePage implements OnInit{
     local:any;
     token:any;
     constructor(private nav:NavController,
-                private omc:EcmService){
+                private omc:EcmService,
+                private menu:MenuController){
         this.local = new Storage(LocalStorage);
         this.logo = 'img/logo.png';
         this.authenticateModel = new AuthenticateModel('','');
+        this.menu.enable(false);
     }
-    ngOnInit(){
-        let token 
-        this.local.get("token")
-                    .then((data) => {
-                        this.token = data
-                        this.omc.checkToken(this.token)
-                                .subscribe(
-                                    response => this.nav.setRoot(HomePage),
-                                    err => this.local.remove('token'),
-                                    () => console.log("Mobile Init")
-                                );
-                    });
-    }
+    
     onSubmit() { 
         this.omc.authenticate(this.authenticateModel.username,
                               this.authenticateModel.password)
@@ -47,6 +37,7 @@ export class AuthenticatePage implements OnInit{
      afterSignIn(){
          if(this.results.token){
              this.local.set("token",this.results.token);
+             this.menu.enable(true);
              this.nav.setRoot(HomePage);
          }
      }

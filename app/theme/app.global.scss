@@ -111,6 +111,39 @@ body.wp img#wp-only {
 p{
     margin: 3px;
 }
+ion-col[width-9]{
+    max-width:9%;
+}
+ion-col[width-8]{
+    max-width:8%;
+}
+ion-col[width-7]{
+    max-width:7%;
+}
+ion-col[width-6]{
+    max-width:6%;
+}
+ion-col[width-5]{
+    max-width:5%;
+}
+ion-col[width-4]{
+    max-width:4%;
+}
+ion-col[width-3]{
+    max-width:3%;
+}
+ion-col[width-2]{
+    max-width:2%;
+}
+ion-col[width-1]{
+    max-width:1%;
+}
+
+.no-padding > ion-col{
+    padding:0px;
+}
+
+
 
 $logo-align: center;
 $background: rgb(15,33,69);
@@ -175,7 +208,13 @@ $tab-color: rgb(249,214,34),rgb(236,30,40),rgb(255,255,255),rgb(27,189,204);
     margin:0px;
     margin-bottom: 25px;
     border-radius: 0px;
-    width:30%; 
+   
+}
+button[width-30]{
+     width:30%; 
+}
+button[width-100]{
+     width:100%; 
 }
 .space-top{
     margin-top:10px;
@@ -187,6 +226,7 @@ $tab-color: rgb(249,214,34),rgb(236,30,40),rgb(255,255,255),rgb(27,189,204);
     position: fixed;
     bottom: 0;
     left: 0;
+    padding:0px;
 }
 .white{
     color:#fff;
@@ -238,4 +278,14 @@ $tab-color: rgb(249,214,34),rgb(236,30,40),rgb(255,255,255),rgb(27,189,204);
     margin:0px !important;
 }
 
+.block-two ion-item:first-child{
+    width:50%;
+    margin-right: 20px;
+}
+.block-two ion-item:nth-child(2){
+    width:50%;
+}
 
+select{
+    border:0px;
+}

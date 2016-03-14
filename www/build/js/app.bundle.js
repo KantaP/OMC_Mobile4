@@ -3186,9 +3186,11 @@
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	var ionic_angular_1 = __webpack_require__(5);
+	var register_1 = __webpack_require__(372);
 	var home_1 = __webpack_require__(362);
 	var getquote_1 = __webpack_require__(368);
 	var initial_1 = __webpack_require__(369);
+	var signOut_1 = __webpack_require__(374);
 	var MyApp = (function () {
 	    function MyApp(platform, app) {
 	        this.rootPage = initial_1.InitialPage;
@@ -3197,6 +3199,8 @@
 	        this.pages = [
 	            { title: "Home Page", component: home_1.HomePage },
 	            { title: 'Get Quote', component: getquote_1.GetQuotePage },
+	            { title: "Register", component: register_1.RegisterPage },
+	            { title: "Sign Out", component: signOut_1.SignoutCompoent }
 	        ];
 	        platform.ready().then(function () {
 	            // The platform is now ready. Note: if this callback fails to fire, follow
@@ -63657,16 +63661,23 @@
 	};
 	var ionic_angular_1 = __webpack_require__(5);
 	var ecm_1 = __webpack_require__(363);
+	var getquote_1 = __webpack_require__(368);
 	var HomePage = (function () {
-	    function HomePage() {
+	    function HomePage(nav) {
+	        this.nav = nav;
 	        this.logo = 'img/logo.png';
 	    }
+	    HomePage.prototype.setRoot = function (Component) {
+	        if (Component == 'GetQuote') {
+	            this.nav.push(getquote_1.GetQuotePage);
+	        }
+	    };
 	    HomePage = __decorate([
 	        ionic_angular_1.Page({
 	            templateUrl: "build/pages/home/home.html",
 	            providers: [ecm_1.EcmService]
 	        }), 
-	        __metadata('design:paramtypes', [])
+	        __metadata('design:paramtypes', [ionic_angular_1.NavController])
 	    ], HomePage);
 	    return HomePage;
 	}());
@@ -63717,6 +63728,22 @@
 	        var headers = new http_1.Headers();
 	        headers.append('Content-Type', 'application/x-www-form-urlencoded');
 	        return this.http.post('http://webservice.ecoachmanager.com/Api/auth/checkToken', body, { headers: headers })
+	            .map(function (response) { return response.json(); });
+	    };
+	    EcmService.prototype.getVehicleType = function (passengers) {
+	        var body = "_n=" + passengers + '&_d=' + btoa(this.database);
+	        var data;
+	        var headers = new http_1.Headers();
+	        headers.append('Content-Type', 'application/x-www-form-urlencoded');
+	        return this.http.post('http://webservice.ecoachmanager.com/Api/quote/getVehicleType', body, { headers: headers })
+	            .map(function (response) { return response.json(); });
+	    };
+	    EcmService.prototype.getLuggageType = function (passengers, vehicle) {
+	        var body = "_n=" + passengers + '&_v=' + vehicle + '&_d=' + btoa(this.database);
+	        var data;
+	        var headers = new http_1.Headers();
+	        headers.append('Content-Type', 'application/x-www-form-urlencoded');
+	        return this.http.post('http://webservice.ecoachmanager.com/Api/quote/getLuggageType', body, { headers: headers })
 	            .map(function (response) { return response.json(); });
 	    };
 	    EcmService = __decorate([
@@ -63842,19 +63869,45 @@
 	var ionic_angular_1 = __webpack_require__(5);
 	var ecm_1 = __webpack_require__(363);
 	var GetQuotePage = (function () {
-	    function GetQuotePage() {
+	    function GetQuotePage(omc) {
+	        this.omc = omc;
+	        this.directs = [];
+	        this.passengers = [];
+	        this.vehicles = [];
+	        this.journeys = [];
+	        this.luggages = [];
+	        this.vehicle_pass = false;
+	        this.luggage_pass = false;
+	        this.journey_pass = false;
 	        this.logo = 'img/logo.png';
 	        this.times = ["00:00", "00:30", "01:00", "01:30", "02:00", "02:30", "03:00", "03:30", "04:00", "04:30", "05:00", "05:30",
 	            "06:00", "06:30", "07:00", "07:30", "08:00", "08:30", "09:00", "09:30", "10:00", "10:30", "11:00", "11:30",
 	            "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00", "17:30",
 	            "18:00", "18:30", "19:00", "19:30", "20:00", "20:30", "21:00", "21:30", "22:00", "22:30", "23:00", "23:30"];
+	        for (var i = 0; i < 49; i++) {
+	            this.directs.push(i);
+	        }
+	        for (var i = 1; i < 72; i++) {
+	            this.passengers.push(i);
+	        }
 	    }
+	    GetQuotePage.prototype.getVehicleType = function (passengers) {
+	        var _this = this;
+	        this.passenger_select = passengers;
+	        this.omc.getVehicleType(passengers)
+	            .subscribe(function (response) { return _this.vehicles = response; }, function (err) { return console.log(err); }, function () { return _this.vehicle_pass = true; });
+	    };
+	    GetQuotePage.prototype.getLuggageType = function (vehicle) {
+	        var _this = this;
+	        this.omc.getLuggageType(this.passenger_select, vehicle)
+	            .subscribe(function (response) { return _this.luggages = response; }, function (err) { return console.log(err); }, function () { return _this.luggage_pass = true; });
+	    };
 	    GetQuotePage = __decorate([
 	        ionic_angular_1.Page({
 	            templateUrl: "build/pages/getquote/getquote.html",
 	            providers: [ecm_1.EcmService]
 	        }), 
-	        __metadata('design:paramtypes', [])
+	        __metadata('design:paramtypes', [ecm_1.EcmService])
 	    ], GetQuotePage);
 	    return GetQuotePage;
 	}());
@@ -63928,24 +63981,16 @@
 	// import {SecurityPage} from '../security/security';
 	var home_1 = __webpack_require__(362);
 	var AuthenticatePage = (function () {
-	    function AuthenticatePage(nav, omc) {
+	    function AuthenticatePage(nav, omc, menu) {
 	        this.nav = nav;
 	        this.omc = omc;
+	        this.menu = menu;
 	        this.submitted = false;
 	        this.local = new ionic_angular_1.Storage(ionic_angular_1.LocalStorage);
 	        this.logo = 'img/logo.png';
 	        this.authenticateModel = new authenticate_model_1.AuthenticateModel('', '');
+	        this.menu.enable(false);
 	    }
-	    AuthenticatePage.prototype.ngOnInit = function () {
-	        var _this = this;
-	        var token;
-	        this.local.get("token")
-	            .then(function (data) {
-	            _this.token = data;
-	            _this.omc.checkToken(_this.token)
-	                .subscribe(function (response) { return _this.nav.setRoot(home_1.HomePage); }, function (err) { return _this.local.remove('token'); }, function () { return console.log("Mobile Init"); });
-	        });
-	    };
 	    AuthenticatePage.prototype.onSubmit = function () {
 	        var _this = this;
 	        this.omc.authenticate(this.authenticateModel.username, this.authenticateModel.password)
@@ -63954,6 +63999,7 @@
 	    AuthenticatePage.prototype.afterSignIn = function () {
 	        if (this.results.token) {
 	            this.local.set("token", this.results.token);
+	            this.menu.enable(true);
 	            this.nav.setRoot(home_1.HomePage);
 	        }
 	    };
@@ -63970,7 +64016,7 @@
 	            templateUrl: 'build/pages/authenticate/authenticate.html',
 	            providers: [ecm_1.EcmService]
 	        }), 
-	        __metadata('design:paramtypes', [ionic_angular_1.NavController, ecm_1.EcmService])
+	        __metadata('design:paramtypes', [ionic_angular_1.NavController, ecm_1.EcmService, ionic_angular_1.MenuController])
 	    ], AuthenticatePage);
 	    return AuthenticatePage;
 	}());
@@ -63990,6 +64036,113 @@
 	    return AuthenticateModel;
 	}());
 	exports.AuthenticateModel = AuthenticateModel;
+
+
+/***/ },
+/* 372 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+	    return c > 3 && r && Object.defineProperty(target, key, r), r;
+	};
+	var __metadata = (this && this.__metadata) || function (k, v) {
+	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+	};
+	var ionic_angular_1 = __webpack_require__(5);
+	var register_model_1 = __webpack_require__(373);
+	var ecm_1 = __webpack_require__(363);
+	var RegisterPage = (function () {
+	    function RegisterPage(omc, nav) {
+	        this.submitted = false;
+	        this.logo = 'img/logo.png';
+	        this.omc = omc;
+	        this.registerModel = new register_model_1.RegisterModel('', '', '');
+	        this.nav = nav;
+	        this.hidden = true;
+	    }
+	    RegisterPage.prototype.registerMember = function () {
+	        var _this = this;
+	        this.submitted = true;
+	        this.omc.register(this.registerModel.fullname, this.registerModel.telephone, this.registerModel.email)
+	            .subscribe(function (response) { return _this.results = response; }, function (err) { return console.log(err); }, function () { return _this.doAlert(_this.results); });
+	    };
+	    RegisterPage.prototype.doAlert = function (results) {
+	        var alert = ionic_angular_1.Alert.create({
+	            title: results.title,
+	            subTitle: results.message,
+	            buttons: ['Ok']
+	        });
+	        this.nav.present(alert);
+	        this.submitted = false;
+	    };
+	    RegisterPage = __decorate([
+	        ionic_angular_1.Page({
+	            templateUrl: 'build/pages/register/register.html',
+	            providers: [ecm_1.EcmService]
+	        }), 
+	        __metadata('design:paramtypes', [ecm_1.EcmService, ionic_angular_1.NavController])
+	    ], RegisterPage);
+	    return RegisterPage;
+	}());
+	exports.RegisterPage = RegisterPage;
+
+
+/***/ },
+/* 373 */
+/***/ function(module, exports) {
+
+	"use strict";
+	var RegisterModel = (function () {
+	    function RegisterModel(fullname, email, telephone) {
+	        this.fullname = fullname;
+	        this.email = email;
+	        this.telephone = telephone;
+	    }
+	    return RegisterModel;
+	}());
+	exports.RegisterModel = RegisterModel;
+
+
+/***/ },
+/* 374 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+	    return c > 3 && r && Object.defineProperty(target, key, r), r;
+	};
+	var __metadata = (this && this.__metadata) || function (k, v) {
+	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+	};
+	var ionic_angular_1 = __webpack_require__(5);
+	var ionic_angular_2 = __webpack_require__(5);
+	var authenticate_1 = __webpack_require__(370);
+	var SignoutCompoent = (function () {
+	    function SignoutCompoent(nav) {
+	        this.nav = nav;
+	        this.local = new ionic_angular_2.Storage(ionic_angular_2.LocalStorage);
+	        this.logo = 'img/logo.png';
+	    }
+	    SignoutCompoent.prototype.ngOnInit = function () {
+	        this.local.remove('token');
+	        this.nav.setRoot(authenticate_1.AuthenticatePage);
+	    };
+	    SignoutCompoent = __decorate([
+	        ionic_angular_1.Page({
+	            templateUrl: 'build/pages/signOut/signOut.html'
+	        }), 
+	        __metadata('design:paramtypes', [ionic_angular_2.NavController])
+	    ], SignoutCompoent);
+	    return SignoutCompoent;
+	}());
+	exports.SignoutCompoent = SignoutCompoent;
 
 
 /***/ }

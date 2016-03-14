@@ -5,7 +5,7 @@ import {SecurityPage} from './pages/security/security';
 import {HomePage} from './pages/home/home';
 import {GetQuotePage} from './pages/getquote/getquote';
 import {InitialPage} from './pages/initial/initial';
-
+import {SignoutCompoent} from './pages/signOut/signOut';
 @App({
   templateUrl: 'build/app.html',
   config: {
@@ -30,6 +30,8 @@ export class MyApp {
     this.pages = [
       { title: "Home Page", component: HomePage},
       { title: 'Get Quote', component: GetQuotePage },
+      { title: "Register", component: RegisterPage},
+      { title: "Sign Out", component: SignoutCompoent}
     //   { title: 'List', component: RegisterPage }
     ];
     platform.ready().then(() => {

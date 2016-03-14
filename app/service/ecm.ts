@@ -38,6 +38,26 @@ export class EcmService{
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
         return this.http.post('http://webservice.ecoachmanager.com/Api/auth/checkToken',
                              body, {headers: headers})
-                             .map(response => response.json())
+                             .map(response => response.json());
+    }
+    
+    getVehicleType(passengers){
+        let body = "_n=" + passengers + '&_d=' + btoa(this.database);
+        let data;
+        let headers = new Headers();
+        headers.append('Content-Type','application/x-www-form-urlencoded');
+        return this.http.post('http://webservice.ecoachmanager.com/Api/quote/getVehicleType',
+                                body,{headers:headers})
+                                .map(response => response.json());
+    }
+    
+    getLuggageType(passengers,vehicle){
+        let body = "_n=" + passengers + '&_v=' + vehicle  +'&_d=' + btoa(this.database);
+        let data;
+        let headers = new Headers();
+        headers.append('Content-Type','application/x-www-form-urlencoded');
+        return this.http.post('http://webservice.ecoachmanager.com/Api/quote/getLuggageType',
+                                body,{headers:headers})
+                                .map(response => response.json());
     }
 }

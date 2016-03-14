@@ -1,4 +1,4 @@
-<ion-navbar *navbar hideBackButton class="android-attr" >
+<ion-navbar *navbar class="android-attr" >
 
   <button menuToggle class="white-non-border">
     <ion-icon name='menu'></ion-icon>
@@ -23,9 +23,9 @@
             </ion-item>
             <ion-item class="space-bottom-input">
                 <!--<ion-label>Pickup Time</ion-label>-->
-                <ion-select>
-                    <ion-option *ngFor="#time of times" [value]="time">{{time}}</ion-option>
-                </ion-select>
+                <select class="full-width">
+                    <option *ngFor="#time of times" [value]="time">{{time}}</option>
+                </select>
             </ion-item>
         </ion-row>
         <ion-row class="center block-date">
@@ -34,16 +34,16 @@
             </ion-item>
             <ion-item class="space-bottom-input">
                 <!--<ion-label>Return Time</ion-label>-->
-                <ion-select>
-                    <ion-option *ngFor="#time of times" [value]="time">{{time}}</ion-option>
-                </ion-select>
+                <select class="full-width">
+                    <option *ngFor="#time of times" [value]="time">{{time}}</option>
+                </select>
             </ion-item>
         </ion-row>
         <ion-row class="center block-date">
             <ion-item class="space-bottom-input">
                 <ion-input type="text" value="" placeholder="Collection Address"></ion-input>
             </ion-item>
-            <button class="space-bottom-button  tab-4">
+            <button class="space-bottom-button  tab-4" width-30>
                 <i class="fa fa-map-marker" style="margin-right: 10px;"></i>
                 Find
             </button>
@@ -52,7 +52,7 @@
             <ion-item class="space-bottom-input">
                 <ion-input type="text" value="" placeholder="Extra Drops"></ion-input>
             </ion-item>
-            <button class="space-bottom-button  tab-4">
+            <button class="space-bottom-button  tab-4" width-30> 
                 <i class="fa fa-map-marker" style="margin-right: 10px;"></i>
                 Find
             </button>
@@ -61,7 +61,7 @@
             <ion-item class="space-bottom-input">
                 <ion-input type="text" value="" placeholder="Destination Address"></ion-input>
             </ion-item>
-            <button class="space-bottom-button  tab-4">
+            <button class="space-bottom-button  tab-4" width-30>
                 <i class="fa fa-map-marker" style="margin-right: 10px;"></i>
                 Find
             </button>
@@ -72,13 +72,46 @@
                 Mileage Duration
             </p>
         </ion-row>
-        <ion-row class="center block-date">
+        <ion-row class="center block-two">
+                <ion-item class="space-bottom-input">
+                    <select class="full-width">
+                        <option [value]="">As Directed</option>
+                        <option *ngFor="#direct of directs" [value]="direct">{{direct}} Hours</option>
+                    </select>
+                </ion-item>
+                <ion-item class="space-bottom-input">
+                    <select class="full-width" #passenger_select (change)="getVehicleType(passenger_select.value)">
+                        <option [value]="">Passengers</option>
+                        <option *ngFor="#passenger of passengers" [value]="passenger"  
+                        >{{passenger}} passenger</option>
+                    </select>
+                </ion-item>
+        </ion-row>
+        <ion-row class="center block-two">
+                <ion-item class="space-bottom-input">
+                    <select class="full-width" [disabled]="!vehicle_pass" #vehicle_select (change)="getLuggageType(vehicle_select.value)">
+                        <option [value]="">Vehicle Type</option>
+                        <option *ngFor="#vehicle of vehicles" [value]="vehicle.car_id">{{vehicle.car_name}}</option>
+                    </select>
+                </ion-item>
+                <ion-item class="space-bottom-input">
+                    <select class="full-width" [disabled]="!luggage_pass">
+                        <option [value]="">Luggages</option>
+                        <option *ngFor="#luggage of luggages" [value]="luggage.bag_id">{{luggage.bag_des}}</option>
+                    </select>
+                </ion-item>
+        </ion-row>
+        <ion-row class="center">
             <ion-item class="space-bottom-input">
-                <ion-input type="text" value="" placeholder="Destination Address"></ion-input>
+                 <select class="full-width" [disabled]="!journey_pass">
+                        <option [value]="">Journey Type</option>
+                        <option *ngFor="#journey of journeys" [value]="journey">{{journey}}</option>
+                    </select>
             </ion-item>
-            <button class="space-bottom-button  tab-4">
-                <i class="fa fa-map-marker" style="margin-right: 10px;"></i>
-                Find
+        </ion-row>
+        <ion-row class="center">
+            <button class="space-bottom-button  tab-4" width-100>
+                GET QUOTE
             </button>
         </ion-row>
     </ion-col>
