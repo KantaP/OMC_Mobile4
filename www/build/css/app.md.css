@@ -9963,7 +9963,11 @@ button[width-100] {
   width: 50%; }
 
 select {
-  border: 0px; }
+  border: 0px;
+  background-color: transparent; }
+
+button {
+  border-radius: 0px !important; }
 
 /*!
  *  Font Awesome 4.5.0 by @davegandy - http://fontawesome.io - @fontawesome

@@ -9,33 +9,41 @@
 
 </ion-navbar>
 <ion-content padding class="security">
-    <p class="space-bottom-input"></p>
-    <ion-col width-80 offset-10>
-        <ion-row class="center">
-            <p class="white-non-border big-text">Enter 4 Digit</p>
-        </ion-row>
-        <ion-row class="center">
-             <p class="white-non-border big-text">Passcode From SMS</p>
-        </ion-row>
-    </ion-col>
-    <p class="space-bottom-input"></p>
-    <ion-col width-80 offset-10>
-        <ion-list class="flex-list">
-            <ion-item class="square">
-                <ion-input type="text" class="validate" value="" required></ion-input>
-            </ion-item>
-            <ion-item class="square">
-                <ion-input type="text" class="validate" value="" required></ion-input>
-            </ion-item>
-            <ion-item class="square">
-                <ion-input type="text" class="validate" value="" required></ion-input>
-            </ion-item>
-            <ion-item class="square">
-                <ion-input type="text" class="validate" value="" required></ion-input>
-            </ion-item>
-        </ion-list>
-        
-    </ion-col>
+    <form>
+        <p class="space-bottom-input"></p>
+        <ion-col width-80 offset-10>
+            <ion-row class="center">
+                <p class="white-non-border big-text">Enter 4 Digit</p>
+            </ion-row>
+            <ion-row class="center">
+                <p class="white-non-border big-text">Passcode From SMS</p>
+            </ion-row>
+        </ion-col>
+        <p class="space-bottom-input"></p>
+        <ion-col width-80 offset-10>
+            <ion-list class="flex-list">
+                <ion-item class="square">
+                    <ion-input type="text" class="validate" value="" required></ion-input>
+                </ion-item>
+                <ion-item class="square">
+                    <ion-input type="text" class="validate" value="" required></ion-input>
+                </ion-item>
+                <ion-item class="square">
+                    <ion-input type="text" class="validate" value="" required></ion-input>
+                </ion-item>
+                <ion-item class="square">
+                    <ion-input type="text" class="validate" value="" required></ion-input>
+                </ion-item>
+            </ion-list>
+        </ion-col>
+        <ion-col width-80 offset-10>
+            <ion-row class="center">
+                <button type="submit" outline class="full-width white" [disabled]="!authForm.form.valid">
+                    LOGIN
+                </button>
+            </ion-row>
+        </ion-col>
+    </form>
     <ion-row class="position-bottom">
         <ion-col width-25 class="tab-1"></ion-col>
         <ion-col width-25 class="tab-2"></ion-col>
