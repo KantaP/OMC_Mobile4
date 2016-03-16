@@ -8,13 +8,11 @@ import {AuthenticatePage} from '../authenticate/authenticate';
     providers:[EcmService]
 })
 export class InitialPage implements OnInit{
-    logo:any;
-    local:any;
+    logo = 'img/logo.png';
+    local = new Storage(LocalStorage);
     token:any;
     constructor(private omc:EcmService,
                 private nav:NavController){
-        this.logo = 'img/logo.png';
-        this.local = new Storage(LocalStorage);
     }
     ngOnInit(){
         let token 

@@ -10,58 +10,70 @@
 
 </ion-navbar>
 <ion-content class="getquote">
+    <form #quoteForm="ngForm">
+    <div class="loading-container" *ngIf="submitted">
+        <img class="loading" [src]="loading" width="60"/>
+    </div>
     <p class="space-bottom-input"></p>
     <ion-col width-100>
         <ion-row class="center">
             <ion-item class="space-bottom-input">
-                <ion-input type="telephone" value="" placeholder="External Referrence"></ion-input>
+                <ion-input type="text" ([ngModel])="quoteModel.referrence" 
+                ngControl="referrence" #referrence="ngForm" placeholder="External Referrence"></ion-input>
             </ion-item>
         </ion-row>
         <ion-row class="center block-date">
             <ion-item class="space-bottom-input">
-                <ion-input type="text" value="" placeholder="Picup Date"></ion-input>
+                <ion-input type="date" ([ngModel])="quoteModel.pickupDate" 
+                ngControl="pickupDate" #pickupDate="ngForm" placeholder="Pickup Date" required></ion-input>
             </ion-item>
             <ion-item class="space-bottom-input">
                 <!--<ion-label>Pickup Time</ion-label>-->
-                <select class="full-width">
-                    <option *ngFor="#time of times" [value]="time">{{time}}</option>
+                <select class="full-width" ([ngModel])="quoteModel.pickupTime" 
+                ngControl="pickupTime" #pickupTime="ngForm" required>
+                    <option *ngFor="#time of times" [value]="time" >{{time}}</option>
                 </select>
             </ion-item>
         </ion-row>
         <ion-row class="center block-date">
             <ion-item class="space-bottom-input">
-                <ion-input type="text" value="" placeholder="Return Date"></ion-input>
+                <ion-input type="date" ([ngModel])="quoteModel.returnDate" 
+                ngControl="returnDate" #returnDate="ngForm" placeholder="Return Date" required></ion-input>
             </ion-item>
             <ion-item class="space-bottom-input">
                 <!--<ion-label>Return Time</ion-label>-->
-                <select class="full-width">
+                <select class="full-width" ([ngModel])="quoteModel.returnTime" 
+                ngControl="returnTime" #returnTime="ngForm" required>
                     <option *ngFor="#time of times" [value]="time">{{time}}</option>
                 </select>
             </ion-item>
         </ion-row>
         <ion-row class="center block-date">
             <ion-item class="space-bottom-input">
-                <ion-input type="text" value="" placeholder="Collection Address"></ion-input>
+                <ion-input type="text" ([ngModel])="quoteModel.collection" 
+                ngControl="collection" #collection="ngForm" placeholder="Collection Address" required></ion-input>
             </ion-item>
-            <button class="space-bottom-button  tab-4" width-30>
+            <button type="button" class="space-bottom-button  tab-4" width-30 (click)="goToGoogleMap('Collection Address')">
                 <i class="fa fa-map-marker" style="margin-right: 10px;"></i>
                 Find
             </button>
         </ion-row>
         <ion-row class="center block-date">
             <ion-item class="space-bottom-input">
-                <ion-input type="text" value="" placeholder="Extra Drops"></ion-input>
+                <ion-input type="text" ([ngModel])="quoteModel.extradrop" 
+                ngControl="extradrop" #extradrop="ngForm" placeholder="Extra Drops"></ion-input>
             </ion-item>
-            <button class="space-bottom-button  tab-4" width-30> 
+            <button type="button" class="space-bottom-button  tab-4" width-30> 
                 <i class="fa fa-map-marker" style="margin-right: 10px;"></i>
                 Find
             </button>
         </ion-row>
         <ion-row class="center block-date">
             <ion-item class="space-bottom-input">
-                <ion-input type="text" value="" placeholder="Destination Address"></ion-input>
+                <ion-input type="text" ([ngModel])="quoteModel.destination" 
+                ngControl="destination" #dextination="ngForm" placeholder="Destination Address" required></ion-input>
             </ion-item>
-            <button class="space-bottom-button  tab-4" width-30>
+            <button type="button" class="space-bottom-button  tab-4" width-30 (click)="goToGoogleMap('Destination Address')">
                 <i class="fa fa-map-marker" style="margin-right: 10px;"></i>
                 Find
             </button>
@@ -74,14 +86,16 @@
         </ion-row>
         <ion-row class="center block-two">
                 <ion-item class="space-bottom-input">
-                    <select class="full-width">
-                        <option [value]="">As Directed</option>
+                    <select class="full-width" ([ngModel])="quoteModel.asDirect" 
+                ngControl="asDirect" #asDirect="ngForm">
+                        <option [value]="0">As Directed</option>
                         <option *ngFor="#direct of directs" [value]="direct">{{direct}} Hours</option>
                     </select>
                 </ion-item>
                 <ion-item class="space-bottom-input">
-                    <select class="full-width" #passenger_select (change)="getVehicleType(passenger_select.value)">
-                        <option [value]="">Passengers</option>
+                    <select class="full-width" ([ngModel])="quoteModel.passenger" 
+                ngControl="passenger" #passenger="ngForm" #passenger_select (change)="getVehicleType(passenger_select.value)" required>
+                        <option [value]="0">Passengers</option>
                         <option *ngFor="#passenger of passengers" [value]="passenger"  
                         >{{passenger}} passenger</option>
                     </select>
@@ -89,32 +103,37 @@
         </ion-row>
         <ion-row class="center block-two">
                 <ion-item class="space-bottom-input">
-                    <select class="full-width" [disabled]="!vehicle_pass" #vehicle_select (change)="getLuggageType(vehicle_select.value)">
-                        <option [value]="">Vehicle Type</option>
+                    <select class="full-width" ([ngModel])="quoteModel.vehicle" 
+                ngControl="vehicle" #vehicle="ngForm" [disabled]="!vehicle_pass" #vehicle_select (change)="getLuggageType(vehicle_select.value)" required>
+                        <option [value]="0">Vehicle Type</option>
                         <option *ngFor="#vehicle of vehicles" [value]="vehicle.car_id">{{vehicle.car_name}}</option>
                     </select>
                 </ion-item>
                 <ion-item class="space-bottom-input">
-                    <select class="full-width" [disabled]="!luggage_pass">
-                        <option [value]="">Luggages</option>
+                    <select class="full-width" ([ngModel])="quoteModel.luggage" 
+                ngControl="luggage" #luggage="ngForm" [disabled]="!luggage_pass" (change)="getJourneyType()" required>
+                        <option [value]="0">Luggages</option>
                         <option *ngFor="#luggage of luggages" [value]="luggage.bag_id">{{luggage.bag_des}}</option>
                     </select>
                 </ion-item>
         </ion-row>
         <ion-row class="center">
             <ion-item class="space-bottom-input">
-                 <select class="full-width" [disabled]="!journey_pass">
-                        <option [value]="">Journey Type</option>
-                        <option *ngFor="#journey of journeys" [value]="journey">{{journey}}</option>
+                 <select class="full-width" ([ngModel])="quoteModel.journey" 
+                ngControl="journey" #journey="ngForm" [disabled]="!journey_pass" required>
+                        <option [value]="0">Journey Type</option>
+                        <option *ngFor="#journey of journeys" [value]="journey.journey_id">{{journey.journey_data}}</option>
                     </select>
             </ion-item>
         </ion-row>
         <ion-row class="center">
-            <button class="space-bottom-button  tab-4" width-100>
+            <button [disabled]="!quoteForm.form.valid"  class="space-bottom-button  tab-4" width-100>
                 GET QUOTE
             </button>
         </ion-row>
+
     </ion-col>
+    </form>
     <ion-row class="position-bottom">
         <ion-col width-25 class="tab-1"></ion-col>
         <ion-col width-25 class="tab-2"></ion-col>

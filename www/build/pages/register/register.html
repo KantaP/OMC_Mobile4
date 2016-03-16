@@ -1,8 +1,10 @@
-<!--<ion-navbar *navbar [hidden]="hidden">
-      <ion-title>REGISTER</ion-title>
-</ion-navbar>-->
+<ion-navbar *navbar class="android-attr" >
+</ion-navbar>
 <ion-content padding class="register">
     <form #regForm="ngForm" (ngSubmit)="registerMember()">
+        <div class="loading-container" *ngIf="submitted">
+            <img class="loading" [src]="loading" width="60"/>
+        </div>
         <ion-col width-80 offset-10 class="space-bottom-logo">
             <ion-row class="center">
                 <img [src]="logo" />

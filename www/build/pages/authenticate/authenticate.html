@@ -4,6 +4,9 @@
 
 <ion-content padding class="authenticate">
     <form #authForm="ngForm" (ngSubmit)="onSubmit()">
+    <div class="loading-container" *ngIf="submitted">
+        <img class="loading" [src]="loading" width="60"/>
+    </div>
     <ion-col width-80 offset-10 class="space-bottom-logo">
         <ion-row class="center">
             <img [src]="logo" />
@@ -31,6 +34,11 @@
             <button type="submit" outline class="full-width white" [disabled]="!authForm.form.valid">
                 LOGIN
             </button>
+        </ion-row>
+    </ion-col>
+    <ion-col width-80 offset-10>
+        <ion-row class="">
+            <a [navPush]="[registerPage]">Register</a>
         </ion-row>
     </ion-col>
     <ion-row class="position-bottom">

@@ -3187,10 +3187,10 @@
 	};
 	var ionic_angular_1 = __webpack_require__(5);
 	var register_1 = __webpack_require__(362);
-	var home_1 = __webpack_require__(369);
-	var getquote_1 = __webpack_require__(370);
-	var initial_1 = __webpack_require__(371);
-	var signOut_1 = __webpack_require__(374);
+	var home_1 = __webpack_require__(370);
+	var getquote_1 = __webpack_require__(371);
+	var initial_1 = __webpack_require__(494);
+	var signOut_1 = __webpack_require__(497);
 	var MyApp = (function () {
 	    function MyApp(platform, app) {
 	        this.rootPage = initial_1.InitialPage;
@@ -63664,6 +63664,7 @@
 	var ecm_1 = __webpack_require__(364);
 	var RegisterPage = (function () {
 	    function RegisterPage(omc, nav) {
+	        this.loading = 'img/loading.svg';
 	        this.submitted = false;
 	        this.logo = 'img/logo.png';
 	        this.omc = omc;
@@ -63675,16 +63676,19 @@
 	        var _this = this;
 	        this.submitted = true;
 	        this.omc.register(this.registerModel.fullname, this.registerModel.telephone, this.registerModel.email)
-	            .subscribe(function (response) { return _this.results = response; }, function (err) { return console.log(err); }, function () { return _this.doAlert(_this.results); });
+	            .subscribe(function (response) { return _this.results = response; }, function (err) { return _this.doAlert(err.json()); }, function () {
+	            _this.doAlert(_this.results);
+	            // this.nav.setRoot(AuthenticatePage);
+	        });
 	    };
 	    RegisterPage.prototype.doAlert = function (results) {
+	        this.submitted = false;
 	        var alert = ionic_angular_1.Alert.create({
 	            title: results.title,
 	            subTitle: results.message,
 	            buttons: ['Ok']
 	        });
 	        this.nav.present(alert);
-	        this.submitted = false;
 	    };
 	    RegisterPage = __decorate([
 	        ionic_angular_1.Page({
@@ -63730,8 +63734,8 @@
 	};
 	var core_1 = __webpack_require__(7);
 	var http_1 = __webpack_require__(145);
-	var sms_model_1 = __webpack_require__(375);
-	__webpack_require__(365);
+	var sms_model_1 = __webpack_require__(365);
+	__webpack_require__(366);
 	var EcmService = (function () {
 	    function EcmService(http) {
 	        this.http = http;
@@ -63743,18 +63747,16 @@
 	    };
 	    EcmService.prototype.authenticate = function (username, password) {
 	        var body = "_u=" + btoa(username) + "&_p=" + btoa(password) + "&_d=" + btoa(this.database);
-	        if (this.sms.api != '') {
-	            body += "&_s=" + this.encodeSms();
-	        }
-	        var data;
 	        var headers = new http_1.Headers();
 	        headers.append('Content-Type', 'application/x-www-form-urlencoded');
 	        return this.http.post('http://webservice.ecoachmanager.com/Api/auth/signIn', body, { headers: headers })
 	            .map(function (response) { return response.json(); });
 	    };
 	    EcmService.prototype.register = function (fullname, telephone, email) {
-	        var body = "_f=" + fullname + "&_t=" + telephone + "&_e=" + email + "&_d=" + btoa(this.database);
-	        var data;
+	        var body = "_f=" + btoa(fullname) + "&_t=" + btoa(telephone) + "&_e=" + btoa(email) + "&_d=" + btoa(this.database);
+	        if (this.sms.api != '') {
+	            body += "&_s=" + this.encodeSms();
+	        }
 	        var headers = new http_1.Headers();
 	        headers.append('Content-Type', 'application/x-www-form-urlencoded');
 	        return this.http.post('http://webservice.ecoachmanager.com/Api/member/signUp', body, { headers: headers })
@@ -63762,15 +63764,20 @@
 	    };
 	    EcmService.prototype.checkToken = function (token) {
 	        var body = "_t=" + token;
-	        var data;
 	        var headers = new http_1.Headers();
 	        headers.append('Content-Type', 'application/x-www-form-urlencoded');
 	        return this.http.post('http://webservice.ecoachmanager.com/Api/auth/checkToken', body, { headers: headers })
 	            .map(function (response) { return response.json(); });
 	    };
+	    EcmService.prototype.checkVerify = function (v_code, email) {
+	        var body = "_vc=" + v_code + '&_e=' + btoa(email) + '&_d=' + btoa(this.database);
+	        var headers = new http_1.Headers();
+	        headers.append('Content-Type', 'application/x-www-form-urlencoded');
+	        return this.http.post('http://webservice.ecoachmanager.com/Api/auth/checkVerify', body, { headers: headers })
+	            .map(function (response) { return response.json(); });
+	    };
 	    EcmService.prototype.getVehicleType = function (passengers) {
 	        var body = "_n=" + passengers + '&_d=' + btoa(this.database);
-	        var data;
 	        var headers = new http_1.Headers();
 	        headers.append('Content-Type', 'application/x-www-form-urlencoded');
 	        return this.http.post('http://webservice.ecoachmanager.com/Api/quote/getVehicleType', body, { headers: headers })
@@ -63778,10 +63785,16 @@
 	    };
 	    EcmService.prototype.getLuggageType = function (passengers, vehicle) {
 	        var body = "_n=" + passengers + '&_v=' + vehicle + '&_d=' + btoa(this.database);
-	        var data;
 	        var headers = new http_1.Headers();
 	        headers.append('Content-Type', 'application/x-www-form-urlencoded');
 	        return this.http.post('http://webservice.ecoachmanager.com/Api/quote/getLuggageType', body, { headers: headers })
+	            .map(function (response) { return response.json(); });
+	    };
+	    EcmService.prototype.getJourneyType = function () {
+	        var body = '_d=' + btoa(this.database);
+	        var headers = new http_1.Headers();
+	        headers.append('Content-Type', 'application/x-www-form-urlencoded');
+	        return this.http.post('http://webservice.ecoachmanager.com/Api/quote/getJourneyType', body, { headers: headers })
 	            .map(function (response) { return response.json(); });
 	    };
 	    EcmService = __decorate([
@@ -63795,15 +63808,31 @@
 
 /***/ },
 /* 365 */
+/***/ function(module, exports) {
+
+	"use strict";
+	var SmsModel = (function () {
+	    function SmsModel(api, user, pass) {
+	        this.api = api;
+	        this.user = user;
+	        this.pass = pass;
+	    }
+	    return SmsModel;
+	}());
+	exports.SmsModel = SmsModel;
+
+
+/***/ },
+/* 366 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Observable_1 = __webpack_require__(56);
-	var map_1 = __webpack_require__(366);
+	var map_1 = __webpack_require__(367);
 	Observable_1.Observable.prototype.map = map_1.map;
 	//# sourceMappingURL=map.js.map
 
 /***/ },
-/* 366 */
+/* 367 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __extends = (this && this.__extends) || function (d, b) {
@@ -63812,8 +63841,8 @@
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
 	var Subscriber_1 = __webpack_require__(57);
-	var tryCatch_1 = __webpack_require__(367);
-	var errorObject_1 = __webpack_require__(368);
+	var tryCatch_1 = __webpack_require__(368);
+	var errorObject_1 = __webpack_require__(369);
 	/**
 	 * Similar to the well known `Array.prototype.map` function, this operator
 	 * applies a projection to each value and emits that projection in the returned observable
@@ -63861,10 +63890,10 @@
 	//# sourceMappingURL=map.js.map
 
 /***/ },
-/* 367 */
+/* 368 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var errorObject_1 = __webpack_require__(368);
+	var errorObject_1 = __webpack_require__(369);
 	var tryCatchTarget;
 	function tryCatcher() {
 	    try {
@@ -63884,50 +63913,11 @@
 	//# sourceMappingURL=tryCatch.js.map
 
 /***/ },
-/* 368 */
+/* 369 */
 /***/ function(module, exports) {
 
 	exports.errorObject = { e: {} };
 	//# sourceMappingURL=errorObject.js.map
-
-/***/ },
-/* 369 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-	    return c > 3 && r && Object.defineProperty(target, key, r), r;
-	};
-	var __metadata = (this && this.__metadata) || function (k, v) {
-	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-	};
-	var ionic_angular_1 = __webpack_require__(5);
-	var ecm_1 = __webpack_require__(364);
-	var getquote_1 = __webpack_require__(370);
-	var HomePage = (function () {
-	    function HomePage(nav) {
-	        this.nav = nav;
-	        this.logo = 'img/logo.png';
-	    }
-	    HomePage.prototype.setRoot = function (Component) {
-	        if (Component == 'GetQuote') {
-	            this.nav.push(getquote_1.GetQuotePage);
-	        }
-	    };
-	    HomePage = __decorate([
-	        ionic_angular_1.Page({
-	            templateUrl: "build/pages/home/home.html",
-	            providers: [ecm_1.EcmService]
-	        }), 
-	        __metadata('design:paramtypes', [ionic_angular_1.NavController])
-	    ], HomePage);
-	    return HomePage;
-	}());
-	exports.HomePage = HomePage;
-
 
 /***/ },
 /* 370 */
@@ -63945,50 +63935,29 @@
 	};
 	var ionic_angular_1 = __webpack_require__(5);
 	var ecm_1 = __webpack_require__(364);
-	var GetQuotePage = (function () {
-	    function GetQuotePage(omc) {
-	        this.omc = omc;
-	        this.directs = [];
-	        this.passengers = [];
-	        this.vehicles = [];
-	        this.journeys = [];
-	        this.luggages = [];
-	        this.vehicle_pass = false;
-	        this.luggage_pass = false;
-	        this.journey_pass = false;
+	var getquote_1 = __webpack_require__(371);
+	var HomePage = (function () {
+	    function HomePage(nav, menu) {
+	        this.menu = menu;
+	        this.nav = nav;
 	        this.logo = 'img/logo.png';
-	        this.times = ["00:00", "00:30", "01:00", "01:30", "02:00", "02:30", "03:00", "03:30", "04:00", "04:30", "05:00", "05:30",
-	            "06:00", "06:30", "07:00", "07:30", "08:00", "08:30", "09:00", "09:30", "10:00", "10:30", "11:00", "11:30",
-	            "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00", "17:30",
-	            "18:00", "18:30", "19:00", "19:30", "20:00", "20:30", "21:00", "21:30", "22:00", "22:30", "23:00", "23:30"];
-	        for (var i = 0; i < 49; i++) {
-	            this.directs.push(i);
-	        }
-	        for (var i = 1; i < 72; i++) {
-	            this.passengers.push(i);
-	        }
+	        this.menu.enable(true);
 	    }
-	    GetQuotePage.prototype.getVehicleType = function (passengers) {
-	        var _this = this;
-	        this.passenger_select = passengers;
-	        this.omc.getVehicleType(passengers)
-	            .subscribe(function (response) { return _this.vehicles = response; }, function (err) { return console.log(err); }, function () { return _this.vehicle_pass = true; });
+	    HomePage.prototype.setRoot = function (Component) {
+	        if (Component == 'GetQuote') {
+	            this.nav.push(getquote_1.GetQuotePage);
+	        }
 	    };
-	    GetQuotePage.prototype.getLuggageType = function (vehicle) {
-	        var _this = this;
-	        this.omc.getLuggageType(this.passenger_select, vehicle)
-	            .subscribe(function (response) { return _this.luggages = response; }, function (err) { return console.log(err); }, function () { return _this.luggage_pass = true; });
-	    };
-	    GetQuotePage = __decorate([
+	    HomePage = __decorate([
 	        ionic_angular_1.Page({
-	            templateUrl: "build/pages/getquote/getquote.html",
+	            templateUrl: "build/pages/home/home.html",
 	            providers: [ecm_1.EcmService]
 	        }), 
-	        __metadata('design:paramtypes', [ecm_1.EcmService])
-	    ], GetQuotePage);
-	    return GetQuotePage;
+	        __metadata('design:paramtypes', [ionic_angular_1.NavController, ionic_angular_1.MenuController])
+	    ], HomePage);
+	    return HomePage;
 	}());
-	exports.GetQuotePage = GetQuotePage;
+	exports.HomePage = HomePage;
 
 
 /***/ },
@@ -64007,8 +63976,232 @@
 	};
 	var ionic_angular_1 = __webpack_require__(5);
 	var ecm_1 = __webpack_require__(364);
-	var home_1 = __webpack_require__(369);
-	var authenticate_1 = __webpack_require__(372);
+	var quote_model_1 = __webpack_require__(372);
+	var googleMap_1 = __webpack_require__(498);
+	var GetQuotePage = (function () {
+	    function GetQuotePage(omc, nav) {
+	        this.omc = omc;
+	        this.nav = nav;
+	        this.loading = 'img/loading.svg';
+	        this.submitted = false;
+	        this.directs = [];
+	        this.passengers = [];
+	        this.vehicles = [];
+	        this.journeys = [];
+	        this.luggages = [];
+	        this.vehicle_pass = false;
+	        this.luggage_pass = false;
+	        this.journey_pass = false;
+	        this.quoteModel = new quote_model_1.QuoteModel('', '', '00:00', '', '', '', '', '', 0, 0, 0, 0, 0);
+	        this.logo = 'img/logo.png';
+	        this.times = ["00:00", "00:30", "01:00", "01:30", "02:00", "02:30", "03:00", "03:30", "04:00", "04:30", "05:00", "05:30",
+	            "06:00", "06:30", "07:00", "07:30", "08:00", "08:30", "09:00", "09:30", "10:00", "10:30", "11:00", "11:30",
+	            "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00", "17:30",
+	            "18:00", "18:30", "19:00", "19:30", "20:00", "20:30", "21:00", "21:30", "22:00", "22:30", "23:00", "23:30"];
+	        for (var i = 1; i < 49; i++) {
+	            this.directs.push(i);
+	        }
+	        for (var i = 1; i < 72; i++) {
+	            this.passengers.push(i);
+	        }
+	    }
+	    GetQuotePage.prototype.getVehicleType = function (passengers) {
+	        var _this = this;
+	        this.passenger_select = passengers;
+	        this.omc.getVehicleType(passengers)
+	            .subscribe(function (response) { return _this.vehicles = response; }, function (err) { return console.log(err); }, function () { return _this.vehicle_pass = true; });
+	    };
+	    GetQuotePage.prototype.getLuggageType = function (vehicle) {
+	        var _this = this;
+	        this.omc.getLuggageType(this.passenger_select, vehicle)
+	            .subscribe(function (response) { return _this.luggages = response; }, function (err) { return console.log(err); }, function () { return _this.luggage_pass = true; });
+	    };
+	    GetQuotePage.prototype.getJourneyType = function () {
+	        var _this = this;
+	        this.omc.getJourneyType()
+	            .subscribe(function (response) { return _this.journeys = response; }, function (err) { return console.log(err); }, function () { return _this.journey_pass = true; });
+	    };
+	    GetQuotePage.prototype.goToGoogleMap = function (from) {
+	        this.nav.push(googleMap_1.GoogleMapPage, { from: from });
+	    };
+	    GetQuotePage = __decorate([
+	        ionic_angular_1.Page({
+	            templateUrl: "build/pages/getquote/getquote.html",
+	            providers: [ecm_1.EcmService],
+	            directives: []
+	        }), 
+	        __metadata('design:paramtypes', [ecm_1.EcmService, ionic_angular_1.NavController])
+	    ], GetQuotePage);
+	    return GetQuotePage;
+	}());
+	exports.GetQuotePage = GetQuotePage;
+
+
+/***/ },
+/* 372 */
+/***/ function(module, exports) {
+
+	"use strict";
+	var QuoteModel = (function () {
+	    function QuoteModel(referrence, pickupDate, pickupTime, returnDate, returnTime, collection, extradrop, destination, asDirect, passenger, vehicle, luggage, journey) {
+	        this.referrence = referrence;
+	        this.pickupDate = pickupDate;
+	        this.pickupTime = pickupTime;
+	        this.returnDate = returnDate;
+	        this.returnTime = returnTime;
+	        this.collection = collection;
+	        this.extradrop = extradrop;
+	        this.destination = destination;
+	        this.asDirect = asDirect;
+	        this.passenger = passenger;
+	        this.vehicle = vehicle;
+	        this.luggage = luggage;
+	        this.journey = journey;
+	    }
+	    return QuoteModel;
+	}());
+	exports.QuoteModel = QuoteModel;
+
+
+/***/ },
+/* 373 */,
+/* 374 */,
+/* 375 */,
+/* 376 */,
+/* 377 */,
+/* 378 */,
+/* 379 */,
+/* 380 */,
+/* 381 */,
+/* 382 */,
+/* 383 */,
+/* 384 */,
+/* 385 */,
+/* 386 */,
+/* 387 */,
+/* 388 */,
+/* 389 */,
+/* 390 */,
+/* 391 */,
+/* 392 */,
+/* 393 */,
+/* 394 */,
+/* 395 */,
+/* 396 */,
+/* 397 */,
+/* 398 */,
+/* 399 */,
+/* 400 */,
+/* 401 */,
+/* 402 */,
+/* 403 */,
+/* 404 */,
+/* 405 */,
+/* 406 */,
+/* 407 */,
+/* 408 */,
+/* 409 */,
+/* 410 */,
+/* 411 */,
+/* 412 */,
+/* 413 */,
+/* 414 */,
+/* 415 */,
+/* 416 */,
+/* 417 */,
+/* 418 */,
+/* 419 */,
+/* 420 */,
+/* 421 */,
+/* 422 */,
+/* 423 */,
+/* 424 */,
+/* 425 */,
+/* 426 */,
+/* 427 */,
+/* 428 */,
+/* 429 */,
+/* 430 */,
+/* 431 */,
+/* 432 */,
+/* 433 */,
+/* 434 */,
+/* 435 */,
+/* 436 */,
+/* 437 */,
+/* 438 */,
+/* 439 */,
+/* 440 */,
+/* 441 */,
+/* 442 */,
+/* 443 */,
+/* 444 */,
+/* 445 */,
+/* 446 */,
+/* 447 */,
+/* 448 */,
+/* 449 */,
+/* 450 */,
+/* 451 */,
+/* 452 */,
+/* 453 */,
+/* 454 */,
+/* 455 */,
+/* 456 */,
+/* 457 */,
+/* 458 */,
+/* 459 */,
+/* 460 */,
+/* 461 */,
+/* 462 */,
+/* 463 */,
+/* 464 */,
+/* 465 */,
+/* 466 */,
+/* 467 */,
+/* 468 */,
+/* 469 */,
+/* 470 */,
+/* 471 */,
+/* 472 */,
+/* 473 */,
+/* 474 */,
+/* 475 */,
+/* 476 */,
+/* 477 */,
+/* 478 */,
+/* 479 */,
+/* 480 */,
+/* 481 */,
+/* 482 */,
+/* 483 */,
+/* 484 */,
+/* 485 */,
+/* 486 */,
+/* 487 */,
+/* 488 */,
+/* 489 */,
+/* 490 */,
+/* 491 */,
+/* 492 */,
+/* 493 */,
+/* 494 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+	    return c > 3 && r && Object.defineProperty(target, key, r), r;
+	};
+	var __metadata = (this && this.__metadata) || function (k, v) {
+	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+	};
+	var ionic_angular_1 = __webpack_require__(5);
+	var ecm_1 = __webpack_require__(364);
+	var home_1 = __webpack_require__(370);
+	var authenticate_1 = __webpack_require__(495);
 	var InitialPage = (function () {
 	    function InitialPage(omc, nav) {
 	        this.omc = omc;
@@ -64039,7 +64232,7 @@
 
 
 /***/ },
-/* 372 */
+/* 495 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -64053,16 +64246,19 @@
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	var ionic_angular_1 = __webpack_require__(5);
-	var authenticate_model_1 = __webpack_require__(373);
+	var authenticate_model_1 = __webpack_require__(496);
 	var ecm_1 = __webpack_require__(364);
-	// import {SecurityPage} from '../security/security';
-	var home_1 = __webpack_require__(369);
+	var security_1 = __webpack_require__(499);
+	var home_1 = __webpack_require__(370);
+	var register_1 = __webpack_require__(362);
 	var AuthenticatePage = (function () {
 	    function AuthenticatePage(nav, omc, menu) {
 	        this.nav = nav;
 	        this.omc = omc;
 	        this.menu = menu;
+	        this.loading = 'img/loading.svg';
 	        this.submitted = false;
+	        this.registerPage = register_1.RegisterPage;
 	        this.local = new ionic_angular_1.Storage(ionic_angular_1.LocalStorage);
 	        this.logo = 'img/logo.png';
 	        this.authenticateModel = new authenticate_model_1.AuthenticateModel('', '');
@@ -64070,17 +64266,24 @@
 	    }
 	    AuthenticatePage.prototype.onSubmit = function () {
 	        var _this = this;
+	        this.submitted = true;
 	        this.omc.authenticate(this.authenticateModel.username, this.authenticateModel.password)
 	            .subscribe(function (response) { return _this.results = response; }, function (err) { return _this.doAlert(err.json()); }, function () { return _this.afterSignIn(); });
 	    };
 	    AuthenticatePage.prototype.afterSignIn = function () {
+	        this.submitted = false;
 	        if (this.results.token) {
-	            this.local.set("token", this.results.token);
-	            this.menu.enable(true);
-	            this.nav.setRoot(home_1.HomePage);
+	            if (this.results.auth == 1) {
+	                this.nav.setRoot(home_1.HomePage);
+	                this.local.set("token", this.results.token);
+	            }
+	            else if (this.results.auth == -1) {
+	                this.nav.setRoot(security_1.SecurityPage, { email: this.authenticateModel.username });
+	            }
 	        }
 	    };
 	    AuthenticatePage.prototype.doAlert = function (response) {
+	        this.submitted = false;
 	        var alert = ionic_angular_1.Alert.create({
 	            title: response.title,
 	            subTitle: response.message,
@@ -64101,7 +64304,7 @@
 
 
 /***/ },
-/* 373 */
+/* 496 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -64116,7 +64319,7 @@
 
 
 /***/ },
-/* 374 */
+/* 497 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -64131,7 +64334,7 @@
 	};
 	var ionic_angular_1 = __webpack_require__(5);
 	var ionic_angular_2 = __webpack_require__(5);
-	var authenticate_1 = __webpack_require__(372);
+	var authenticate_1 = __webpack_require__(495);
 	var SignoutCompoent = (function () {
 	    function SignoutCompoent(nav) {
 	        this.nav = nav;
@@ -64154,19 +64357,115 @@
 
 
 /***/ },
-/* 375 */
+/* 498 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+	    return c > 3 && r && Object.defineProperty(target, key, r), r;
+	};
+	var __metadata = (this && this.__metadata) || function (k, v) {
+	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+	};
+	var ionic_angular_1 = __webpack_require__(5);
+	var GoogleMapPage = (function () {
+	    function GoogleMapPage(platform, params, menu) {
+	        this.platform = platform;
+	        this.params = params;
+	        this.menu = menu;
+	        this.from = this.params.get('from');
+	        this.menu.enable(false);
+	    }
+	    GoogleMapPage.prototype.initializeMap = function () {
+	        var _this = this;
+	        this.platform.ready().then(function () {
+	            var minZoomLevel = 12;
+	            _this.map = new google.maps.Map(document.getElementById('map'), {
+	                zoom: minZoomLevel,
+	                center: new google.maps.LatLng(38.50, -90.50),
+	                mapTypeId: google.maps.MapTypeId.ROADMAP
+	            });
+	        });
+	    };
+	    GoogleMapPage.prototype.ngAfterViewInit = function () {
+	        this.initializeMap();
+	    };
+	    GoogleMapPage = __decorate([
+	        ionic_angular_1.Page({
+	            templateUrl: 'build/pages/googleMap/googleMap.html'
+	        }), 
+	        __metadata('design:paramtypes', [ionic_angular_1.Platform, ionic_angular_1.NavParams, ionic_angular_1.MenuController])
+	    ], GoogleMapPage);
+	    return GoogleMapPage;
+	}());
+	exports.GoogleMapPage = GoogleMapPage;
+
+
+/***/ },
+/* 499 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+	    return c > 3 && r && Object.defineProperty(target, key, r), r;
+	};
+	var __metadata = (this && this.__metadata) || function (k, v) {
+	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+	};
+	var ionic_angular_1 = __webpack_require__(5);
+	var ecm_1 = __webpack_require__(364);
+	var security_model_1 = __webpack_require__(500);
+	var home_1 = __webpack_require__(370);
+	var SecurityPage = (function () {
+	    function SecurityPage(omc, nav, params) {
+	        this.omc = omc;
+	        this.nav = nav;
+	        this.params = params;
+	        this.securityModel = new security_model_1.SecurityModel('', '', '', '');
+	        this.logo = 'img/logo.png';
+	    }
+	    SecurityPage.prototype.onSubmit = function () {
+	        var _this = this;
+	        var v_code = this.securityModel.first + this.securityModel.second + this.securityModel.third + this.securityModel.forth;
+	        this.omc.checkVerify(v_code, this.params.get('email'))
+	            .subscribe(function (response) { return _this.results = response; }, function (err) { return console.log(err); }, function () { return _this.afterVerify(); });
+	    };
+	    SecurityPage.prototype.afterVerify = function () {
+	        this.nav.setRoot(home_1.HomePage);
+	    };
+	    SecurityPage = __decorate([
+	        ionic_angular_1.Page({
+	            templateUrl: "build/pages/security/security.html",
+	            providers: [ecm_1.EcmService]
+	        }), 
+	        __metadata('design:paramtypes', [ecm_1.EcmService, ionic_angular_1.NavController, ionic_angular_1.NavParams])
+	    ], SecurityPage);
+	    return SecurityPage;
+	}());
+	exports.SecurityPage = SecurityPage;
+
+
+/***/ },
+/* 500 */
 /***/ function(module, exports) {
 
 	"use strict";
-	var SmsModel = (function () {
-	    function SmsModel(api, user, pass) {
-	        this.api = api;
-	        this.user = user;
-	        this.pass = pass;
+	var SecurityModel = (function () {
+	    function SecurityModel(first, second, third, forth) {
+	        this.first = first;
+	        this.second = second;
+	        this.third = third;
+	        this.forth = forth;
 	    }
-	    return SmsModel;
+	    return SecurityModel;
 	}());
-	exports.SmsModel = SmsModel;
+	exports.SecurityModel = SecurityModel;
 
 
 /***/ }

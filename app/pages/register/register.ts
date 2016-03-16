@@ -2,6 +2,7 @@ import {Page, Alert, NavController} from 'ionic-angular';
 import {RegisterModel} from '../../model/register.model';
 import {EcmService} from '../../service/ecm';
 import {forwardRef} from 'angular2/core';
+import {AuthenticatePage} from '../authenticate/authenticate';
 @Page({
   templateUrl: 'build/pages/register/register.html',
   providers:[EcmService]
@@ -10,6 +11,7 @@ import {forwardRef} from 'angular2/core';
 export class RegisterPage {
     logo;
     omc;
+    loading = 'img/loading.svg';
     submitted = false;
     registerModel:any;
     results:any;
@@ -31,18 +33,22 @@ export class RegisterPage {
                           this.registerModel.email)
                 .subscribe(
                     response => this.results = response,
-                    err => console.log(err),
-                    () => this.doAlert(this.results)
+                    err => this.doAlert(err.json()),
+                    () => {
+                        this.doAlert(this.results)
+                        // this.nav.setRoot(AuthenticatePage);
+                    }
                 );
     }
     
     doAlert(results:any){
+        this.submitted = false;
         let alert = Alert.create({
             title: results.title,
             subTitle: results.message,
             buttons: ['Ok']
         });
         this.nav.present(alert);
-        this.submitted = false;
+        
     }
 }

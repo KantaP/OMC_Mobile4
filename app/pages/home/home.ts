@@ -1,4 +1,4 @@
-import {Page, Alert, NavController} from 'ionic-angular';
+import {Page, Alert, NavController,MenuController} from 'ionic-angular';
 import {EcmService} from '../../service/ecm';
 import {forwardRef} from 'angular2/core';
 import {GetQuotePage} from '../getquote/getquote';
@@ -9,9 +9,10 @@ import {GetQuotePage} from '../getquote/getquote';
 export class HomePage{
     logo:any;
     nav:any;
-    constructor(nav: NavController){
+    constructor(nav: NavController,private menu: MenuController){
         this.nav = nav;
         this.logo = 'img/logo.png';
+        this.menu.enable(true);
     }
     
     setRoot(Component){

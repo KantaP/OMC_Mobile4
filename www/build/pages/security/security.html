@@ -9,7 +9,7 @@
 
 </ion-navbar>
 <ion-content padding class="security">
-    <form>
+    <form #secForm="ngForm" (ngSubmit)="onSubmit()">
         <p class="space-bottom-input"></p>
         <ion-col width-80 offset-10>
             <ion-row class="center">
@@ -23,23 +23,23 @@
         <ion-col width-80 offset-10>
             <ion-list class="flex-list">
                 <ion-item class="square">
-                    <ion-input type="text" class="validate" value="" required></ion-input>
+                    <ion-input type="text" class="validate" [(ngModel)]="securityModel.first" ngControl="first" #first="ngForm"  required></ion-input>
                 </ion-item>
                 <ion-item class="square">
-                    <ion-input type="text" class="validate" value="" required></ion-input>
+                    <ion-input type="text" class="validate" [(ngModel)]="securityModel.second" ngControl="second" #first="ngForm" required></ion-input>
                 </ion-item>
                 <ion-item class="square">
-                    <ion-input type="text" class="validate" value="" required></ion-input>
+                    <ion-input type="text" class="validate" [(ngModel)]="securityModel.third" ngControl="third" #first="ngForm" required></ion-input>
                 </ion-item>
                 <ion-item class="square">
-                    <ion-input type="text" class="validate" value="" required></ion-input>
+                    <ion-input type="text" class="validate" [(ngModel)]="securityModel.forth" ngControl="forth" #first="ngForm" required></ion-input>
                 </ion-item>
             </ion-list>
         </ion-col>
         <ion-col width-80 offset-10>
             <ion-row class="center">
-                <button type="submit" outline class="full-width white" [disabled]="!authForm.form.valid">
-                    LOGIN
+                <button type="submit" outline class="full-width white" [disabled]="!secForm.form.valid">
+                    VERIFY
                 </button>
             </ion-row>
         </ion-col>
