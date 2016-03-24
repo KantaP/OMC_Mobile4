@@ -3186,11 +3186,10 @@
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	var ionic_angular_1 = __webpack_require__(5);
-	var register_1 = __webpack_require__(362);
 	var home_1 = __webpack_require__(370);
 	var getquote_1 = __webpack_require__(371);
-	var initial_1 = __webpack_require__(494);
-	var signOut_1 = __webpack_require__(497);
+	var initial_1 = __webpack_require__(374);
+	var signOut_1 = __webpack_require__(379);
 	var MyApp = (function () {
 	    function MyApp(platform, app) {
 	        this.rootPage = initial_1.InitialPage;
@@ -3199,7 +3198,6 @@
 	        this.pages = [
 	            { title: "Home Page", component: home_1.HomePage },
 	            { title: 'Get Quote', component: getquote_1.GetQuotePage },
-	            { title: "Register", component: register_1.RegisterPage },
 	            { title: "Sign Out", component: signOut_1.SignoutCompoent }
 	        ];
 	        platform.ready().then(function () {
@@ -63977,7 +63975,7 @@
 	var ionic_angular_1 = __webpack_require__(5);
 	var ecm_1 = __webpack_require__(364);
 	var quote_model_1 = __webpack_require__(372);
-	var googleMap_1 = __webpack_require__(498);
+	var googleMap_1 = __webpack_require__(373);
 	var GetQuotePage = (function () {
 	    function GetQuotePage(omc, nav) {
 	        this.omc = omc;
@@ -64064,128 +64062,59 @@
 
 
 /***/ },
-/* 373 */,
-/* 374 */,
-/* 375 */,
-/* 376 */,
-/* 377 */,
-/* 378 */,
-/* 379 */,
-/* 380 */,
-/* 381 */,
-/* 382 */,
-/* 383 */,
-/* 384 */,
-/* 385 */,
-/* 386 */,
-/* 387 */,
-/* 388 */,
-/* 389 */,
-/* 390 */,
-/* 391 */,
-/* 392 */,
-/* 393 */,
-/* 394 */,
-/* 395 */,
-/* 396 */,
-/* 397 */,
-/* 398 */,
-/* 399 */,
-/* 400 */,
-/* 401 */,
-/* 402 */,
-/* 403 */,
-/* 404 */,
-/* 405 */,
-/* 406 */,
-/* 407 */,
-/* 408 */,
-/* 409 */,
-/* 410 */,
-/* 411 */,
-/* 412 */,
-/* 413 */,
-/* 414 */,
-/* 415 */,
-/* 416 */,
-/* 417 */,
-/* 418 */,
-/* 419 */,
-/* 420 */,
-/* 421 */,
-/* 422 */,
-/* 423 */,
-/* 424 */,
-/* 425 */,
-/* 426 */,
-/* 427 */,
-/* 428 */,
-/* 429 */,
-/* 430 */,
-/* 431 */,
-/* 432 */,
-/* 433 */,
-/* 434 */,
-/* 435 */,
-/* 436 */,
-/* 437 */,
-/* 438 */,
-/* 439 */,
-/* 440 */,
-/* 441 */,
-/* 442 */,
-/* 443 */,
-/* 444 */,
-/* 445 */,
-/* 446 */,
-/* 447 */,
-/* 448 */,
-/* 449 */,
-/* 450 */,
-/* 451 */,
-/* 452 */,
-/* 453 */,
-/* 454 */,
-/* 455 */,
-/* 456 */,
-/* 457 */,
-/* 458 */,
-/* 459 */,
-/* 460 */,
-/* 461 */,
-/* 462 */,
-/* 463 */,
-/* 464 */,
-/* 465 */,
-/* 466 */,
-/* 467 */,
-/* 468 */,
-/* 469 */,
-/* 470 */,
-/* 471 */,
-/* 472 */,
-/* 473 */,
-/* 474 */,
-/* 475 */,
-/* 476 */,
-/* 477 */,
-/* 478 */,
-/* 479 */,
-/* 480 */,
-/* 481 */,
-/* 482 */,
-/* 483 */,
-/* 484 */,
-/* 485 */,
-/* 486 */,
-/* 487 */,
-/* 488 */,
-/* 489 */,
-/* 490 */,
-/* 491 */,
-/* 492 */,
-/* 493 */,
-/* 494 */
+/* 373 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+	    return c > 3 && r && Object.defineProperty(target, key, r), r;
+	};
+	var __metadata = (this && this.__metadata) || function (k, v) {
+	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+	};
+	var ionic_angular_1 = __webpack_require__(5);
+	var GoogleMapPage = (function () {
+	    function GoogleMapPage(platform, params, menu) {
+	        this.platform = platform;
+	        this.params = params;
+	        this.menu = menu;
+	        this.from = this.params.get('from');
+	        this.menu.enable(false);
+	        this.searchQuery = '';
+	    }
+	    GoogleMapPage.prototype.initializeMap = function () {
+	        var minZoomLevel = 12;
+	        this.map = new google.maps.Map(document.getElementById('map'), {
+	            zoom: minZoomLevel,
+	            center: new google.maps.LatLng(38.50, -90.50),
+	            mapTypeId: google.maps.MapTypeId.ROADMAP
+	        });
+	        var marker = new google.maps.Marker({
+	            map: this.map,
+	            position: new google.maps.LatLng(38.50, -90.50)
+	        });
+	    };
+	    GoogleMapPage.prototype.searchMap = function (search) {
+	    };
+	    GoogleMapPage.prototype.ngOnInit = function () {
+	        this.initializeMap();
+	    };
+	    GoogleMapPage = __decorate([
+	        ionic_angular_1.Page({
+	            templateUrl: 'build/pages/googleMap/googleMap.html'
+	        }), 
+	        __metadata('design:paramtypes', [ionic_angular_1.Platform, ionic_angular_1.NavParams, ionic_angular_1.MenuController])
+	    ], GoogleMapPage);
+	    return GoogleMapPage;
+	}());
+	exports.GoogleMapPage = GoogleMapPage;
+
+
+/***/ },
+/* 374 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -64201,7 +64130,7 @@
 	var ionic_angular_1 = __webpack_require__(5);
 	var ecm_1 = __webpack_require__(364);
 	var home_1 = __webpack_require__(370);
-	var authenticate_1 = __webpack_require__(495);
+	var authenticate_1 = __webpack_require__(375);
 	var InitialPage = (function () {
 	    function InitialPage(omc, nav) {
 	        this.omc = omc;
@@ -64232,7 +64161,7 @@
 
 
 /***/ },
-/* 495 */
+/* 375 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -64246,9 +64175,9 @@
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	var ionic_angular_1 = __webpack_require__(5);
-	var authenticate_model_1 = __webpack_require__(496);
+	var authenticate_model_1 = __webpack_require__(376);
 	var ecm_1 = __webpack_require__(364);
-	var security_1 = __webpack_require__(499);
+	var security_1 = __webpack_require__(377);
 	var home_1 = __webpack_require__(370);
 	var register_1 = __webpack_require__(362);
 	var AuthenticatePage = (function () {
@@ -64304,7 +64233,7 @@
 
 
 /***/ },
-/* 496 */
+/* 376 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -64319,93 +64248,7 @@
 
 
 /***/ },
-/* 497 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-	    return c > 3 && r && Object.defineProperty(target, key, r), r;
-	};
-	var __metadata = (this && this.__metadata) || function (k, v) {
-	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-	};
-	var ionic_angular_1 = __webpack_require__(5);
-	var ionic_angular_2 = __webpack_require__(5);
-	var authenticate_1 = __webpack_require__(495);
-	var SignoutCompoent = (function () {
-	    function SignoutCompoent(nav) {
-	        this.nav = nav;
-	        this.local = new ionic_angular_2.Storage(ionic_angular_2.LocalStorage);
-	        this.logo = 'img/logo.png';
-	    }
-	    SignoutCompoent.prototype.ngOnInit = function () {
-	        this.local.remove('token');
-	        this.nav.setRoot(authenticate_1.AuthenticatePage);
-	    };
-	    SignoutCompoent = __decorate([
-	        ionic_angular_1.Page({
-	            templateUrl: 'build/pages/signOut/signOut.html'
-	        }), 
-	        __metadata('design:paramtypes', [ionic_angular_2.NavController])
-	    ], SignoutCompoent);
-	    return SignoutCompoent;
-	}());
-	exports.SignoutCompoent = SignoutCompoent;
-
-
-/***/ },
-/* 498 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-	    return c > 3 && r && Object.defineProperty(target, key, r), r;
-	};
-	var __metadata = (this && this.__metadata) || function (k, v) {
-	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-	};
-	var ionic_angular_1 = __webpack_require__(5);
-	var GoogleMapPage = (function () {
-	    function GoogleMapPage(platform, params, menu) {
-	        this.platform = platform;
-	        this.params = params;
-	        this.menu = menu;
-	        this.from = this.params.get('from');
-	        this.menu.enable(false);
-	    }
-	    GoogleMapPage.prototype.initializeMap = function () {
-	        var _this = this;
-	        this.platform.ready().then(function () {
-	            var minZoomLevel = 12;
-	            _this.map = new google.maps.Map(document.getElementById('map'), {
-	                zoom: minZoomLevel,
-	                center: new google.maps.LatLng(38.50, -90.50),
-	                mapTypeId: google.maps.MapTypeId.ROADMAP
-	            });
-	        });
-	    };
-	    GoogleMapPage.prototype.ngAfterViewInit = function () {
-	        this.initializeMap();
-	    };
-	    GoogleMapPage = __decorate([
-	        ionic_angular_1.Page({
-	            templateUrl: 'build/pages/googleMap/googleMap.html'
-	        }), 
-	        __metadata('design:paramtypes', [ionic_angular_1.Platform, ionic_angular_1.NavParams, ionic_angular_1.MenuController])
-	    ], GoogleMapPage);
-	    return GoogleMapPage;
-	}());
-	exports.GoogleMapPage = GoogleMapPage;
-
-
-/***/ },
-/* 499 */
+/* 377 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -64420,7 +64263,7 @@
 	};
 	var ionic_angular_1 = __webpack_require__(5);
 	var ecm_1 = __webpack_require__(364);
-	var security_model_1 = __webpack_require__(500);
+	var security_model_1 = __webpack_require__(378);
 	var home_1 = __webpack_require__(370);
 	var SecurityPage = (function () {
 	    function SecurityPage(omc, nav, params) {
@@ -64452,7 +64295,7 @@
 
 
 /***/ },
-/* 500 */
+/* 378 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -64466,6 +64309,44 @@
 	    return SecurityModel;
 	}());
 	exports.SecurityModel = SecurityModel;
+
+
+/***/ },
+/* 379 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+	    return c > 3 && r && Object.defineProperty(target, key, r), r;
+	};
+	var __metadata = (this && this.__metadata) || function (k, v) {
+	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+	};
+	var ionic_angular_1 = __webpack_require__(5);
+	var ionic_angular_2 = __webpack_require__(5);
+	var authenticate_1 = __webpack_require__(375);
+	var SignoutCompoent = (function () {
+	    function SignoutCompoent(nav) {
+	        this.nav = nav;
+	        this.local = new ionic_angular_2.Storage(ionic_angular_2.LocalStorage);
+	        this.logo = 'img/logo.png';
+	    }
+	    SignoutCompoent.prototype.ngOnInit = function () {
+	        this.local.remove('token');
+	        this.nav.setRoot(authenticate_1.AuthenticatePage);
+	    };
+	    SignoutCompoent = __decorate([
+	        ionic_angular_1.Page({
+	            templateUrl: 'build/pages/signOut/signOut.html'
+	        }), 
+	        __metadata('design:paramtypes', [ionic_angular_2.NavController])
+	    ], SignoutCompoent);
+	    return SignoutCompoent;
+	}());
+	exports.SignoutCompoent = SignoutCompoent;
 
 
 /***/ }

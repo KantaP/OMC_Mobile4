@@ -1,7 +1,4 @@
 import {App, IonicApp, Platform,Page, Config, Events} from 'ionic-angular';
-import {RegisterPage} from './pages/register/register';
-import {AuthenticatePage} from './pages/authenticate/authenticate';
-import {SecurityPage} from './pages/security/security';
 import {HomePage} from './pages/home/home';
 import {GetQuotePage} from './pages/getquote/getquote';
 import {InitialPage} from './pages/initial/initial';
@@ -30,9 +27,7 @@ export class MyApp {
     this.pages = [
       { title: "Home Page", component: HomePage},
       { title: 'Get Quote', component: GetQuotePage },
-      { title: "Register", component: RegisterPage},
       { title: "Sign Out", component: SignoutCompoent}
-    //   { title: 'List', component: RegisterPage }
     ];
     platform.ready().then(() => {
       // The platform is now ready. Note: if this callback fails to fire, follow

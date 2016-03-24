@@ -10,8 +10,9 @@
 
 </ion-navbar>  
 <ion-content class="getquote">
+    <ion-row width-90><ion-searchbar [(ngModel)]="searchQuery" (input)="searchMap($event)"></ion-searchbar></ion-row>
     <ion-row class="center">
-       <div id="map" style="width:300px;height:300px;"></div>
+       <div id="map" style="width:100%;height:300px;"></div>
     </ion-row>
 </ion-content>      
         
